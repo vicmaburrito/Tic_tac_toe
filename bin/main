@@ -26,6 +26,32 @@ puts '
 
 '
 
+class Player
+	def initialize(name, letter)
+		@name = name
+		@letter = letter
+	end
+end
+
+class Game
+	def initialize(name, letter)
+		@name = name
+		@letter = letter
+	end
+
+	def reset 
+	end
+
+	def stop 
+	end
+
+	def checkmatch 
+	end
+end
+
+    
+ 
+ 
 
 
 	 
