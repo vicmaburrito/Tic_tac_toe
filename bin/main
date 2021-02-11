@@ -19,12 +19,13 @@ puts '
 
 
 '
-puts "Hi #{user} and welcome TIC TAC TOE game"
+puts "Hi #{user} and welcome to TIC TAC TOE game"
 
 puts '
 
 
 '
+
 
 
 	 
