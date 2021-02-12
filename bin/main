@@ -13,13 +13,13 @@ puts '
 
 '
 puts "What's your name?"
-user = gets.chomp
-user = 'Stranger' if user == '';
+# user = gets.chomp
+# user = 'Stranger' if user == '';
 puts '
 
 
 '
-puts "Hi #{user} and welcome to TIC TAC TOE game"
+# puts "Hi #{user} and welcome to TIC TAC TOE game"
 
 puts '
 
@@ -31,43 +31,34 @@ puts '
 # 
 
 class Player
+	attr_reader :name
+	attr_reader :letter
 	def initialize(name, letter)
 		@name = name
 		@letter = letter
 	end
 
 	def picknumber(value)
-		values = 1..9.to_a
-		if !values.include? value
+		if !$values.include? value
 			return "#{value} is not allowed, pick a number from 1 to 9"
 		end
 		@value = value
 	end
 
+
 end
 
 class Game
+	$values = (1..9).to_a
 	def initialize(name, letter)
 		@num = nil
 		@emptySquares = nil
 		@val = 0
-		@squares = {
-			'0' => nil,
-			'1' => nil,
-			'2' => nil,
-			'3' => nil,
-			'4' => nil,
-			'5' => nil,
-			'6' => nil,
-			'7' => nil,
-			'8' => nil
-		}
+		@squares = Hash.new(nil)
 	end
 
-	def Play
-	end
-
-	def reset 
+	def reset
+		@squares = Hash.new(nil)
 	end
 
 	def stop 
@@ -78,7 +69,6 @@ class Game
 end
 
 class Scoreboard
-
 	attr_reader :x_score
 	attr_reader :o_score
 
@@ -97,7 +87,7 @@ class Scoreboard
 end
 
 class Tournament
-	def initialize(limit)
+	def initialize(limit)5
 		@limit = limit
 	end
 end
@@ -110,7 +100,21 @@ end
  
 # players = [player1, player2]
 
- 
+player1 = Player.new('Godwin', 'x')
+puts player1.name
+puts player1.letter
 
+chosen_num = player1.picknumber 5
+p chosen_num = (chosen_num-=1).to_s
 
-	 
+squares = Hash.new(nil)
+if squares.has_key? (chosen_num.to_i + 1)
+	return "you cannot choose #{chosen_num.to_i += 1} again"
+end
+puts squares[chosen_num] = player1.letter
+puts squares
+
+chosen_num = player1.picknumber 5
+p chosen_num = (chosen_num-=1).to_s
+puts squares[chosen_num] = player1.letter
+puts squares
