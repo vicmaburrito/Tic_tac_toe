@@ -13,13 +13,14 @@ puts '
 
 '
 puts "What's your name?"
-# user = gets.chomp
-# user = 'Stranger' if user == '';
+user = gets.chomp
+user = 'Stranger' if user == '';
 puts '
 
 
 '
-# puts "Hi #{user} and welcome to TIC TAC TOE game"
+# puts "Hi #{user} 
+# puts "Welcome to TIC TAC TOE game"
 
 puts '
 
@@ -28,7 +29,6 @@ puts '
 
 # Game instructions
 
-# 
 
 class Player
 	attr_reader :name
@@ -42,7 +42,7 @@ class Player
 		if !$values.include? value
 			return "#{value} is not allowed, pick a number from 1 to 9"
 		end
-		@value = value
+		@value = value - 1
 	end
 end
 
@@ -53,30 +53,35 @@ end
 # end
 
 class Game
-	attr_accessor :empty_squares, :num, :val
-	attr_reader :letter
+	attr_accessor :empty_squares, :num, :val, :squares
 
 	$values = (1..9).to_a
-	@@squares = Hash.new(nil)
+	$played = false
+
 	def initialize(name, letter)
 		@num = nil
 		@empty_squares = nil
 		@val = 0
+		@squares = Hash.new(nil)
 	end
 
 	def play(slot, character)
-		if @@squares.has_key? (slot)
+		if @squares.has_key? (slot)
 			return "you cannot choose #{chosen_num.to_i += 1} again"
 		end
-		@@squares[slot] = character
+		@squares[slot] = character
+		@val += 1
+		@played = !@played
+		checkmatch(slot)
 	end
 
 	def reset
-		@@squares = Hash.new(nil)
+		@squares = Hash.new(nil)
+		attr_accessor :squares
 	end
 
 	def stop
-		@@squares.freeze 
+		attr_reader :squares
 	end
 
 	def checkmatch(char)
@@ -139,9 +144,9 @@ class Game
 		}
 	end
 
-	def self.display_squares
-		@@squares
-	end
+	# def self.display_squares
+	# 	@@squares
+	# end
 end
 
 class Scoreboard
