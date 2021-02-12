@@ -139,37 +139,85 @@ end
 # 	end
 # end
  
-puts "Are you ready?"
-puts "hit p to continue"
-p = gets.chomp
-return if p.downcase != 'p'
-while p.downcase != 'p'
-end
-puts "How many players?"
 
-no_of_players = gets.chomp.downcase
-if no_of_players > 2 || no_of_players < 1
-	return "you can only have 1 or 2 players"
-end
-
-
-#
-
-
-def player(*opponents)
-	opponents
-end
-
-players = player(player1, player2)
-
-players.each do |play|
-	if players.size == 1
-
+def init
+	puts "Are you ready?"
+	puts "hit p to continue"
+	pl = gets.chomp
+	while pl.downcase != 'p'
+		puts "hit p to continue"
+		pl = gets.chomp
+		# break if pl == 'p';
 	end
-	# play.new('Godwin', 'x')
+	puts "How many players?"
+	no_of_players = gets.chomp.to_i
+	while no_of_players > 2 || no_of_players < 1
+		puts "you can only have 1 or 2 players"
+		puts "How many players?"
+		no_of_players = gets.chomp.to_i
+	end
+	no_of_players
 end
+$players_num = init
 
-puts player1.name
-puts player1.letter
-puts player2.name
-puts player2.letter
+
+def get_details
+	puts "player1, whats your name?"
+	name1 = gets.chomp
+	name1 = 'user1' if name1 == ''
+
+	# if init == 2
+
+	if $players_num == 2
+		letter2 = nil
+		puts "player1, choose 'x' or 'o'?"
+		letter1 = gets.chomp.downcase
+		while letter1 != 'x' || letter1 != 'o' do
+			puts "player1, choose 'x' or 'o'?"
+			letter1 = gets.chomp.downcase
+			# break if letter1 == 'x' || letter1 == 'o'
+		end
+
+		letter2 = letter1  == 'x' ? 'o' : 'x'
+
+		puts "player2, whats your name?"
+		name2 = gets.chomp
+		name2 = user2 if name2 == ''
+		player1 = Player.new(name1, letter1)
+		player2 = Player.new(name2, letter2)
+	else
+		puts "player1, whats your name?"
+		name1 = gets.chomp
+		name1 = user1 if name1 == ''
+
+		puts "player1, choose 'x' or 'o'?"
+		letter1 = gets.chomp.downcase
+		while letter1 != 'x' || letter1 != 'o'
+			puts "player1, choose 'x' or 'o'?"
+			letter1 = gets.chomp.downcase
+			# break if letter1 == 'x' || letter1 == 'o'
+		end
+		player1 = Player.new(name1, letter1)
+		# player2 = Player.new(name2, letter2)
+	end
+end
+get_details
+
+# player(player1, player2)
+
+
+# def player(*opponents)
+# 	opponents
+# end
+# players = player(player1, player2)
+
+
+# players.each do |play|
+# 	if players.size == 1
+# 	end
+# end
+
+# puts player1.name
+# puts player1.letter
+# puts player2.name
+# puts player2.letter
