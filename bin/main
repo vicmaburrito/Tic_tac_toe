@@ -19,8 +19,8 @@ puts '
 
 
 '
-# puts "Hi #{user} 
-# puts "Welcome to TIC TAC TOE game"
+puts "Hi #{user}" 
+puts "Welcome to TIC TAC TOE game"
 
 puts '
 
@@ -38,7 +38,7 @@ class Player
 		@letter = letter
 	end
 
-	def picknumber(value)
+	def pick_slot(value)
 		if !$values.include? value
 			return "#{value} is not allowed, pick a number from 1 to 9"
 		end
@@ -46,11 +46,6 @@ class Player
 	end
 end
 
-# class TicTacToe
-# 	attr_accessor :squares
-# 	def initialize
-# 	end
-# end
 
 class Game
 	attr_accessor :empty_squares, :num, :val, :squares
@@ -58,21 +53,26 @@ class Game
 	$values = (1..9).to_a
 	$played = false
 
-	def initialize(name, letter)
+	def initialize
 		@num = nil
 		@empty_squares = nil
 		@val = 0
 		@squares = Hash.new(nil)
 	end
 
-	def play(slot, character)
+	def play(slot, character, name)
 		if @squares.has_key? (slot)
-			return "you cannot choose #{chosen_num.to_i += 1} again"
+			return "you cannot choose #{slot} again"
 		end
 		@squares[slot] = character
+		puts @squares
 		@val += 1
 		@played = !@played
-		checkmatch(slot)
+		res = checkmatch(slot)
+		if res = character
+			puts "#{name} has won"
+			return
+		end
 	end
 
 	def reset
@@ -85,63 +85,23 @@ class Game
 	end
 
 	def checkmatch(char)
-		if (squares[0] == char && squares[1] == char && squares[2] == char) {
-			squares[0].style.background = "blue";
-			squares[0].style.color = "white";
-			squares[1].style.background = "blue";
-			squares[1].style.color = "white";
-			squares[2].style.background = "blue";
-			squares[2].style.color = "white";
-		} elsif (squares[3] == char && squares[4] == char && squares[5] == char) {
-			squares[3].style.background = "blue";
-			squares[3].style.color = "white";
-			squares[4].style.background = "blue";
-			squares[4].style.color = "white";
-			squares[5].style.background = "blue";
-			squares[5].style.color = "white";
-		} elsif (squares[6] == char && squares[7] == char && squares[8] == char) {
-			squares[6].style.background = "blue";
-			squares[6].style.color = "white";
-			squares[7].style.background = "blue";
-			squares[7].style.color = "white";
-			squares[8].style.background = "blue";
-			squares[8].style.color = "white";
-		} elsif (squares[0] == char && squares[3] == char && squares[6] == char) {
-			squares[0].style.background = "blue";
-			squares[0].style.color = "white";
-			squares[3].style.background = "blue";
-			squares[3].style.color = "white";
-			squares[6].style.background = "blue";
-			squares[6].style.color = "white";
-		} elsif (squares[1] == char && squares[4] == char && squares[7] == char) {
-			squares[1].style.background = "blue";
-			squares[1].style.color = "white";
-			squares[4].style.background = "blue";
-			squares[4].style.color = "white";
-			squares[7].style.background = "blue";
-			squares[7].style.color = "white";
-		} elsif (squares[2] == char && squares[5] == char && squares[8] == char) {
-			squares[2].style.background = "blue";
-			squares[2].style.color = "white";
-			squares[5].style.background = "blue";
-			squares[5].style.color = "white";
-			squares[8].style.background = "blue";
-			squares[8].style.color = "white";
-		} elsif (squares[0] == char && squares[4] == char && squares[8] == char) {
-			squares[0].style.background = "blue";
-			squares[0].style.color = "white";
-			squares[4].style.background = "blue";
-			squares[4].style.color = "white";
-			squares[8].style.background = "blue";
-			squares[8].style.color = "white";
-		} elsif (squares[2] == char && squares[4] == char && squares[6] == char) {
-			squares[2].style.background = "blue";
-			squares[2].style.color = "white";
-			squares[4].style.background = "blue";
-			squares[4].style.color = "white";
-			squares[6].style.background = "blue";
-			squares[6].style.color = "white";
-		}
+		if squares[0] == char && squares[1] == char && squares[2] == char
+			return char
+		elsif squares[3] == char && squares[4] == char && squares[5] == char
+			return char
+		elsif squares[6] == char && squares[7] == char && squares[8] == char
+			return char
+		elsif squares[0] == char && squares[3] == char && squares[6] == char
+			return char
+		elsif squares[1] == char && squares[4] == char && squares[7] == char
+			return char
+		elsif squares[2] == char && squares[5] == char && squares[8] == char
+			return char
+		elsif squares[0] == char && squares[4] == char && squares[8] == char
+			return char
+		elsif squares[2] == char && squares[4] == char && squares[6] == char
+			return char
+		end
 	end
 
 	# def self.display_squares
@@ -173,29 +133,43 @@ end
 # 	end
 # end
 
-class Automode < Game
-	def initialize(limit)
-		@limit = limit
-	end
-end
+# class Automode < Game
+# 	def initialize(limit)
+# 		@limit = limit
+# 	end
+# end
  
+puts "Are you ready?"
+puts "hit p to continue"
+p = gets.chomp
+return if p.downcase != 'p'
+while p.downcase != 'p'
+end
+puts "How many players?"
 
-player1 = Player.new('Godwin', 'x')
+no_of_players = gets.chomp.downcase
+if no_of_players > 2 || no_of_players < 1
+	return "you can only have 1 or 2 players"
+end
+
+
+#
+
+
+def player(*opponents)
+	opponents
+end
+
+players = player(player1, player2)
+
+players.each do |play|
+	if players.size == 1
+
+	end
+	# play.new('Godwin', 'x')
+end
+
 puts player1.name
 puts player1.letter
-
-chosen_num = player1.picknumber 5
-p chosen_num = (chosen_num-=1).to_s
-
-squares = Hash.new(nil)
-if squares.has_key? (chosen_num.to_i + 1)
-	return "you cannot choose #{chosen_num.to_i += 1} again"
-end
-
-puts squares[chosen_num] = player1.letter
-puts squares
-
-chosen_num = player1.picknumber 5
-p chosen_num = (chosen_num-=1).to_s
-puts squares[chosen_num] = player1.letter
-puts squares
+puts player2.name
+puts player2.letter
