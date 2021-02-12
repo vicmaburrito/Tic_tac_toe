@@ -122,7 +122,7 @@ class Scoreboard
 		@x_score += 1
 	end
 
-	def increment_y
+	def increment_o
 		@o_score += 1
 	end
 end
@@ -147,7 +147,6 @@ def init
 	while pl.downcase != 'p'
 		puts "hit p to continue"
 		pl = gets.chomp
-		# break if pl == 'p';
 	end
 	puts "How many players?"
 	no_of_players = gets.chomp.to_i
@@ -158,33 +157,35 @@ def init
 	end
 	no_of_players
 end
-$players_num = init
 
+$players_num = init
 
 def get_details
 	puts "player1, whats your name?"
 	name1 = gets.chomp
 	name1 = 'user1' if name1 == ''
 
-	# if init == 2
-
 	if $players_num == 2
-		letter2 = nil
-		puts "player1, choose 'x' or 'o'?"
-		letter1 = gets.chomp.downcase
-		while letter1 != 'x' || letter1 != 'o' do
+		$letter2 = nil
+		# puts "player1, choose 'x' or 'o'?"
+		# letter1 = gets.chomp.downcase
+		loop do
 			puts "player1, choose 'x' or 'o'?"
-			letter1 = gets.chomp.downcase
-			# break if letter1 == 'x' || letter1 == 'o'
+			$letter1 = gets.chomp.downcase
+			break if $letter1 != 'x' || $letter1 != 'o'
 		end
+		# while letter1 != 'x' || letter1 != 'o'
+			# puts "player1, choose 'x' or 'o'?"
+			# letter1 = gets.chomp.downcase
+		# end
 
-		letter2 = letter1  == 'x' ? 'o' : 'x'
+		$letter2 = $letter1  == 'x' ? 'o' : 'x'
 
 		puts "player2, whats your name?"
 		name2 = gets.chomp
 		name2 = user2 if name2 == ''
-		player1 = Player.new(name1, letter1)
-		player2 = Player.new(name2, letter2)
+		$player1 = Player.new(name1, $letter1)
+		$player2 = Player.new(name2, $letter2)
 	else
 		puts "player1, whats your name?"
 		name1 = gets.chomp
@@ -217,7 +218,7 @@ get_details
 # 	end
 # end
 
-# puts player1.name
-# puts player1.letter
-# puts player2.name
-# puts player2.letter
+puts $player1.name
+puts $player1.letter
+puts $player2.name
+puts $player2.letter
