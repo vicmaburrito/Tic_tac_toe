@@ -57,28 +57,60 @@ class Game
 		@num = nil
 		@empty_squares = nil
 		@val = 0
-		@squares = Hash.new(nil)
+		@squares = {
+			1 => '-',
+			2 => '-',
+			3 => '-',
+			4 => '-',
+			5 => '-',
+			6 => '-',
+			7 => '-',
+			8 => '-',
+			9 => '-'
+		}
 	end
 
 	def play(character, name)
 		loop do
-			puts "choose a random number between 1 and 9"
+			arr = @squares.select { |key, value|  value == '-'}
+			puts arr
+			arr1 = []
+			arr.each { |k, v|  arr1 << k }
+			puts "choose a random number from #{arr1.each { |n| p n }} that represents each slot"
 			@slot = gets.chomp.to_i
-			break if @slot >= 1 || @slot <= 9
+			break if arr[@slot] == '-'
 		end
-		while @squares.has_key? @slot
-			puts "you cannot choose #{slot} again"
-			puts "choose another number"
-		end
-		@squares[@slot-1] = character
-		puts @squares
+		@squares[@slot] = character
+		puts "                 "
+		print @squares[1]
+		print "  "
+		print @squares[2]
+		print "  "
+		print @squares[3] 
+		puts "                 "
+		print @squares[4]
+		print "  "
+		print @squares[5]
+		print "  "
+		print @squares[6]
+		puts "                 "
+		print @squares[7]
+		print "  "
+		print @squares[8]
+		print "  "
+		print @squares[9] 
+		puts "                 "
+		puts "
+		
+		"
 		@val += 1
 		if @val == 10
 			return
 		end
 		# @played = !@played
 		res = checkmatch(@slot)
-		if res = character
+		puts res
+		if res == character
 			puts "#{name} has won"
 			return
 		end
@@ -232,7 +264,8 @@ puts $player1.letter
 puts $player2.name
 puts $player2.letter
 
-tictac = Game.new()
+tictac = Game.new
+score = Scoreboard.new
 tictac.play($player1.letter, $player1.name)
 tictac.play($player2.letter, $player2.name)
 
