@@ -60,15 +60,24 @@ class Game
 		@squares = Hash.new(nil)
 	end
 
-	def play(slot, character, name)
-		if @squares.has_key? (slot)
-			return "you cannot choose #{slot} again"
+	def play(character, name)
+		loop do
+			puts "choose a random number between 1 and 9"
+			@slot = gets.chomp.to_i
+			break if @slot >= 1 || @slot <= 9
 		end
-		@squares[slot] = character
+		while @squares.has_key? @slot
+			puts "you cannot choose #{slot} again"
+			puts "choose another number"
+		end
+		@squares[@slot-1] = character
 		puts @squares
 		@val += 1
-		@played = !@played
-		res = checkmatch(slot)
+		if @val == 10
+			return
+		end
+		# @played = !@played
+		res = checkmatch(@slot)
 		if res = character
 			puts "#{name} has won"
 			return
@@ -85,21 +94,21 @@ class Game
 	end
 
 	def checkmatch(char)
-		if squares[0] == char && squares[1] == char && squares[2] == char
+		if @squares[0] == char && @squares[1] == char && @squares[2] == char
 			return char
-		elsif squares[3] == char && squares[4] == char && squares[5] == char
+		elsif @squares[3] == char && @squares[4] == char && @squares[5] == char
 			return char
-		elsif squares[6] == char && squares[7] == char && squares[8] == char
+		elsif @squares[6] == char && @squares[7] == char && @squares[8] == char
 			return char
-		elsif squares[0] == char && squares[3] == char && squares[6] == char
+		elsif @squares[0] == char && @squares[3] == char && @squares[6] == char
 			return char
-		elsif squares[1] == char && squares[4] == char && squares[7] == char
+		elsif @squares[1] == char && @squares[4] == char && @squares[7] == char
 			return char
-		elsif squares[2] == char && squares[5] == char && squares[8] == char
+		elsif @squares[2] == char && @squares[5] == char && @squares[8] == char
 			return char
-		elsif squares[0] == char && squares[4] == char && squares[8] == char
+		elsif @squares[0] == char && @squares[4] == char && @squares[8] == char
 			return char
-		elsif squares[2] == char && squares[4] == char && squares[6] == char
+		elsif @squares[2] == char && @squares[4] == char && @squares[6] == char
 			return char
 		end
 	end
@@ -192,11 +201,11 @@ def get_details
 		name1 = user1 if name1 == ''
 
 		puts "player1, choose 'x' or 'o'?"
-		letter1 = gets.chomp.downcase
-		while letter1 != 'x' || letter1 != 'o'
+		$letter1 = gets.chomp.downcase
+		loop do
 			puts "player1, choose 'x' or 'o'?"
-			letter1 = gets.chomp.downcase
-			# break if letter1 == 'x' || letter1 == 'o'
+			$letter1 = gets.chomp.downcase
+			break if $letter1 != 'x' || $letter1 != 'o'
 		end
 		player1 = Player.new(name1, letter1)
 		# player2 = Player.new(name2, letter2)
@@ -222,3 +231,8 @@ puts $player1.name
 puts $player1.letter
 puts $player2.name
 puts $player2.letter
+
+tictac = Game.new()
+tictac.play($player1.letter, $player1.name)
+tictac.play($player2.letter, $player2.name)
+
