@@ -49,7 +49,17 @@ end
 
 class Game
 	attr_accessor :empty_squares, :num, :val, :squares
-
+	@@squares = {
+		1 => '-',
+		2 => '-',
+		3 => '-',
+		4 => '-',
+		5 => '-',
+		6 => '-',
+		7 => '-',
+		8 => '-',
+		9 => '-'
+	}
 	$values = (1..9).to_a
 	$played = false
 
@@ -57,22 +67,22 @@ class Game
 		@num = nil
 		@empty_squares = nil
 		@val = 0
-		@squares = {
-			1 => '-',
-			2 => '-',
-			3 => '-',
-			4 => '-',
-			5 => '-',
-			6 => '-',
-			7 => '-',
-			8 => '-',
-			9 => '-'
-		}
+		# @squares = {
+		# 	1 => '-',
+		# 	2 => '-',
+		# 	3 => '-',
+		# 	4 => '-',
+		# 	5 => '-',
+		# 	6 => '-',
+		# 	7 => '-',
+		# 	8 => '-',
+		# 	9 => '-'
+		# }
 	end
 
 	def play(character, name)
 		loop do
-			board = @squares.select { |key, value|  value == '-' }
+			board = @@squares.select { |key, value|  value == '-' }
 			p board
 			arr1 = []
 			board.each { |k, v|  arr1 << k }
@@ -80,7 +90,7 @@ class Game
 			@slot = gets.chomp.to_i
 			break if board[@slot] == '-';
 		end
-		@squares[@slot] = character
+		@@squares[@slot] = character
 		puts "                 "
 		print 1
 		print "  "
@@ -100,32 +110,31 @@ class Game
 		print "  "
 		print 9
 		puts "                 "
-		puts "
+		# puts "
 		
-		"
-
+		# "
 		puts "                 "
-		print @squares[1]
+		print @@squares[1]
 		print "  "
-		print @squares[2]
+		print @@squares[2]
 		print "  "
-		print @squares[3] 
+		print @@squares[3] 
 		puts "                 "
-		print @squares[4]
+		print @@squares[4]
 		print "  "
-		print @squares[5]
+		print @@squares[5]
 		print "  "
-		print @squares[6]
+		print @@squares[6]
 		puts "                 "
-		print @squares[7]
+		print @@squares[7]
 		print "  "
-		print @squares[8]
+		print @@squares[8]
 		print "  "
-		print @squares[9] 
+		print @@squares[9] 
 		puts "                 "
-		puts "
+		# puts "
 		
-		"
+		# "
 		@val += 1
 		if @val == 10
 			return
@@ -149,21 +158,21 @@ class Game
 	end
 
 	def checkmatch(char)
-		if @squares[0] == char && @squares[1] == char && @squares[2] == char
+		if @@squares[0] == char && @@squares[1] == char && @@squares[2] == char
 			return char
-		elsif @squares[3] == char && @squares[4] == char && @squares[5] == char
+		elsif @@squares[3] == char && @@squares[4] == char && @@squares[5] == char
 			return char
-		elsif @squares[6] == char && @squares[7] == char && @squares[8] == char
+		elsif @@squares[6] == char && @@squares[7] == char && @@squares[8] == char
 			return char
-		elsif @squares[0] == char && @squares[3] == char && @squares[6] == char
+		elsif @@squares[0] == char && @@squares[3] == char && @@squares[6] == char
 			return char
-		elsif @squares[1] == char && @squares[4] == char && @squares[7] == char
+		elsif @@squares[1] == char && @@squares[4] == char && @@squares[7] == char
 			return char
-		elsif @squares[2] == char && @squares[5] == char && @squares[8] == char
+		elsif @@squares[2] == char && @@squares[5] == char && @@squares[8] == char
 			return char
-		elsif @squares[0] == char && @squares[4] == char && @squares[8] == char
+		elsif @@squares[0] == char && @@squares[4] == char && @@squares[8] == char
 			return char
-		elsif @squares[2] == char && @squares[4] == char && @squares[6] == char
+		elsif @@squares[2] == char && @@squares[4] == char && @@squares[6] == char
 			return char
 		end
 	end
@@ -228,15 +237,14 @@ def get_details
 	puts "player1, whats your name?"
 	name1 = gets.chomp
 	name1 = 'user1' if name1 == ''
-
 	if $players_num == 2
 		$letter2 = nil
 		loop do
-			puts "player1, choose 'x' or 'o'?"
-			$letter1 = gets.chomp.downcase
-			break if $letter1 == 'x' || $letter1 == 'o'
+			puts "player1, choose 'X' or 'O'?"
+			$letter1 = gets.chomp.upcase
+			break if $letter1 == 'X' || $letter1 == 'O'
 		end
-		$letter2 = $letter1  == 'x' ? 'o' : 'x'
+		$letter2 = $letter1 == 'X' ? 'O' : 'X'
 		puts "player2, whats your name?"
 		name2 = gets.chomp
 		name2 = user2 if name2 == ''
@@ -247,12 +255,12 @@ def get_details
 		name1 = gets.chomp
 		name1 = user1 if name1 == ''
 
-		puts "player1, choose 'x' or 'o'?"
-		$letter1 = gets.chomp.downcase
+		puts "player1, choose 'X' or 'O'?"
+		$letter1 = gets.chomp.upcase
 		loop do
-			puts "player1, choose 'x' or 'o'?"
-			$letter1 = gets.chomp.downcase
-			break if $letter1 != 'x' || $letter1 != 'o'
+			puts "player1, choose 'X' or 'O'?"
+			$letter1 = gets.chomp.upcase
+			break if $letter1 == 'X' || $letter1 == 'O'
 		end
 		player1 = Player.new(name1, letter1)
 		# player2 = Player.new(name2, letter2)
