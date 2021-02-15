@@ -116,20 +116,23 @@ class Board
 		print "  "
 		print @@squares[9] 
 		puts "                 "
-		# puts "
+		puts "
 		
-		# "
+		"
 		@val += 1
-		if @val == 10
-			return
-		end
+
+		# if @val == 10
+		# 	return
+		# end
+
 		# @played = !@played
-		res = checkmatch(@slot)
-		puts res
-		if res == character
-			puts "#{name} has won"
-			return
-		end
+
+		# res = checkmatch(@slot)
+		# puts res
+		# if res == character
+		# 	puts "#{name} has won"
+		# 	return
+		# end
 	end
 
 	def reset
@@ -175,12 +178,9 @@ class Scoreboard
 		@o_score = 0
 	end
 
-	def increment_x
-		@x_score += 1
-	end
-
-	def increment_o
-		@o_score += 1
+	def increment_score(char)
+		@x_score += 1 if char == 'X'
+		@o_score += 1 if char == 'O'
 	end
 end
 
@@ -192,7 +192,7 @@ end
 # 	end
 # end
 
-# class Automode < Board
+# class Automode < Player
 # 	def initialize(limit)
 # 		@limit = limit
 # 	end
@@ -248,30 +248,57 @@ def get_details
 			$letter1 = gets.chomp.upcase
 			break if $letter1 == 'X' || $letter1 == 'O'
 		end
-		player1 = Player.new(name1, letter1)
+		$player1 = Player.new(name1, letter1)
 		# player2 = Player.new(name2, letter2)
 	end
 end
 get_details
 
-# player(player1, player2)
-# def player(*opponents)
-# 	opponents
-# end
-# players = player(player1, player2)
-# players.each do |play|
-# 	if players.size == 1
-# 	end
-# end
+
+def player(*opponents)
+	opponents
+end
+
+players = player($player1, $player2)
+
 
 puts $player1.name
 puts $player1.letter
 puts $player2.name
 puts $player2.letter
 
-tictac = Board.new
-score = Scoreboard.new
-tictac.play($player1.letter, $player1.name)
-tictac.play($player2.letter, $player2.name)
+
+def runGame(player1, player2)
+	tictac = Board.new
+	score = Scoreboard.new
+	# i = 0
+	loop do
+		tictac.play(player1.letter, player1.name)
+		win = tictac.checkmatch(player1.letter)
+		if win == player1.letter
+			score.increment_score(player1.letter)
+		end
+		print score.x_score
+		print "     "
+		print score.o_score
+		puts "      "
+
+		# if tictac.val == 10
+		# 	break
+		# end
+		tictac.play(player2.letter, player2.name)
+		win1 = tictac.checkmatch(player2.letter)
+		if win1 == player1.letter
+			score.increment_score(player1.letter)
+		end
+		print score.x_score
+		print "     "
+		print score.o_score
+		puts "      "
+		# i+= 2
+	end
+
+end
+runGame(players[0], players[1])
 
 
