@@ -3,10 +3,10 @@
 puts '
 _______ _          _______             _______
 |__   __(_)        |__   __|           |__   __|
-   | |   _  ___ ______| | __ _  ___ ______| | ___   ___
-   | |  | |/ __|______| |/ _` |/ __|______| |/ _ \ / _ \
-   | |  | | (__       | | (_| | (__       | | (_) |  __/
-   |_|  |_|\___|      |_|\__,_|\___|      |_|\___/ \___|
+	 | |   _  ___ ______| | __ _  ___ ______| | ___   ___
+	 | |  | |/ __|______| |/ _` |/ __|______| |/ _ \ / _ \
+	 | |  | | (__       | | (_| | (__       | | (_) |  __/
+	 |_|  |_|\___|      |_|\__,_|\___|      |_|\___/ \___|
 '
 puts '
 
@@ -31,166 +31,166 @@ puts '
 
 
 class Player
-	attr_reader :name
-	attr_reader :letter
-	def initialize(name, letter)
-		@name = name
-		@letter = letter
-	end
+  attr_reader :name
+  attr_reader :letter
+  def initialize(name, letter)
+    @name = name
+    @letter = letter
+  end
 
-	def self.pick_slot
-		loop do
-			board = Board.squares.select { |key, value|  value == '-' }
-			p board
-			arr1 = []
-			board.each { |k, v|  arr1 << k }
-			puts "choose a random number from #{arr1} that represents each slot"
-			@slot = gets.chomp.to_i
-			break if board[@slot] == '-';
-		end
-		@slot
-	end
+  def self.pick_slot
+    loop do
+      board = Board.squares.select { |key, value|  value == '-' }
+      p board
+      arr1 = []
+      board.each { |k, v|  arr1 << k }
+      puts "choose a random number from #{arr1} that represents each slot"
+      @slot = gets.chomp.to_i
+      break if board[@slot] == '-';
+    end
+    @slot
+  end
 end
 
 
 class Board
-	attr_accessor :empty_squares, :num, :val
-	@@squares = {
-		1 => '-',
-		2 => '-',
-		3 => '-',
-		4 => '-',
-		5 => '-',
-		6 => '-',
-		7 => '-',
-		8 => '-',
-		9 => '-'
-	}
-	$played = false
+  attr_accessor :empty_squares, :num, :val
+  @@squares = {
+    1 => '-',
+    2 => '-',
+    3 => '-',
+    4 => '-',
+    5 => '-',
+    6 => '-',
+    7 => '-',
+    8 => '-',
+    9 => '-'
+  }
+  $played = false
 
-	def initialize
-		@num = nil
-		@empty_squares = nil
-		@val = 0
-	end
+  def initialize
+    @num = nil
+    @empty_squares = nil
+    @val = 0
+  end
 
-	def play(character, name)
-		# Player.pick_slot
-		@@squares[Player.pick_slot] = character
-		puts "                 "
-		print 1
-		print "  "
-		print 2
-		print "  "
-		print 3
-		puts "                 "
-		print 4
-		print "  "
-		print 5
-		print "  "
-		print 6
-		puts "                 "
-		print 7
-		print "  "
-		print 8
-		print "  "
-		print 9
-		puts "                 "
+  def play(character, name)
+    # Player.pick_slot
+    @@squares[Player.pick_slot] = character
+    puts "                 "
+    print 1
+    print "  "
+    print 2
+    print "  "
+    print 3
+    puts "                 "
+    print 4
+    print "  "
+    print 5
+    print "  "
+    print 6
+    puts "                 "
+    print 7
+    print "  "
+    print 8
+    print "  "
+    print 9
+    puts "                 "
 
-		puts "                 "
-		print @@squares[1]
-		print "  "
-		print @@squares[2]
-		print "  "
-		print @@squares[3] 
-		puts "                 "
-		print @@squares[4]
-		print "  "
-		print @@squares[5]
-		print "  "
-		print @@squares[6]
-		puts "                 "
-		print @@squares[7]
-		print "  "
-		print @@squares[8]
-		print "  "
-		print @@squares[9] 
-		puts "                 "
-		puts "
-		
-		"
-		@val += 1
+    puts "                 "
+    print @@squares[1]
+    print "  "
+    print @@squares[2]
+    print "  "
+    print @@squares[3] 
+    puts "                 "
+    print @@squares[4]
+    print "  "
+    print @@squares[5]
+    print "  "
+    print @@squares[6]
+    puts "                 "
+    print @@squares[7]
+    print "  "
+    print @@squares[8]
+    print "  "
+    print @@squares[9] 
+    puts "                 "
+    puts "
+    
+    "
+    @val += 1
 
-		# if @val == 10
-		# 	return
-		# end
+    # if @val == 10
+    # 	return
+    # end
 
-		# @played = !@played
+    # @played = !@played
 
-		# res = checkmatch(@slot)
-		# puts res
-		# if res == character
-		# 	puts "#{name} has won"
-		# 	return
-		# end
-	end
+    # res = checkmatch(@slot)
+    # puts res
+    # if res == character
+    # 	puts "#{name} has won"
+    # 	return
+    # end
+  end
 
-	def reset
-		@squares = Hash.new(nil)
-		attr_accessor :squares
-	end
+  def reset
+    @squares = Hash.new(nil)
+    attr_accessor :squares
+  end
 
-	def stop
-		attr_reader :squares
-	end
+  def stop
+    attr_reader :squares
+  end
 
-	def checkmatch(char)
-		if @@squares[1] == char && @@squares[2] == char && @@squares[3] == char
-			return char
-		elsif @@squares[4] == char && @@squares[5] == char && @@squares[6] == char
-			return char
-		elsif @@squares[7] == char && @@squares[8] == char && @@squares[9] == char
-			return char
-		elsif @@squares[1] == char && @@squares[4] == char && @@squares[7] == char
-			return char
-		elsif @@squares[2] == char && @@squares[5] == char && @@squares[8] == char
-			return char
-		elsif @@squares[3] == char && @@squares[6] == char && @@squares[9] == char
-			return char
-		elsif @@squares[1] == char && @@squares[5] == char && @@squares[9] == char
-			return char
-		elsif @@squares[3] == char && @@squares[5] == char && @@squares[7] == char
-			return char
-		end
-	end
+  def checkmatch(char)
+    if @@squares[1] == char && @@squares[2] == char && @@squares[3] == char
+      return char
+    elsif @@squares[4] == char && @@squares[5] == char && @@squares[6] == char
+      return char
+    elsif @@squares[7] == char && @@squares[8] == char && @@squares[9] == char
+      return char
+    elsif @@squares[1] == char && @@squares[4] == char && @@squares[7] == char
+      return char
+    elsif @@squares[2] == char && @@squares[5] == char && @@squares[8] == char
+      return char
+    elsif @@squares[3] == char && @@squares[6] == char && @@squares[9] == char
+      return char
+    elsif @@squares[1] == char && @@squares[5] == char && @@squares[9] == char
+      return char
+    elsif @@squares[3] == char && @@squares[5] == char && @@squares[7] == char
+      return char
+    end
+  end
 
-	def self.squares
-		@@squares
-	end
+  def self.squares
+    @@squares
+  end
 end
 
 class Scoreboard
-	attr_reader :x_score
-	attr_reader :o_score
+  attr_reader :x_score
+  attr_reader :o_score
 
-	def initialize
-		@x_score = 0
-		@o_score = 0
-	end
+  def initialize
+    @x_score = 0
+    @o_score = 0
+  end
 
-	def increment_score(char)
-		@x_score += 1 if char == 'X'
-		@o_score += 1 if char == 'O'
-	end
+  def increment_score(char)
+    @x_score += 1 if char == 'X'
+    @o_score += 1 if char == 'O'
+  end
 end
 
 # class Game; end
 
 class Tournament
-	attr_accessor :limit
-	def initialize(limit)
-		@limit = limit
-	end
+  attr_accessor :limit
+  def initialize(limit)
+      @limit = limit
+  end
 end
 
 # class Automode < Player
@@ -201,75 +201,79 @@ end
  
 
 def init
-	puts "Are you ready?"
-	puts "hit p to continue"
-	pl = gets.chomp
-	while pl.downcase != 'p'
-		puts "hit p to continue"
-		pl = gets.chomp
-	end
-	puts "How many players?"
-	no_of_players = gets.chomp.to_i
-	while no_of_players > 2 || no_of_players < 1
-		puts "you can only have 1 or 2 players"
-		puts "How many players?"
-		no_of_players = gets.chomp.to_i
-	end
-	no_of_players
+  puts "Are you ready?"
+  puts "hit p to continue"
+  pl = gets.chomp
+  while pl.downcase != 'p'
+    puts "hit p to continue"
+    pl = gets.chomp
+  end
+  puts "How many players?"
+  no_of_players = gets.chomp.to_i
+  while no_of_players > 2 || no_of_players < 1
+    puts "you can only have 1 or 2 players"
+    puts "How many players?"
+    no_of_players = gets.chomp.to_i
+  end
+  no_of_players
 end
 
 $players_num = init
 
 def get_details
-	puts "player1, whats your name?"
-	name1 = gets.chomp
-	name1 = 'user1' if name1 == ''
-	if $players_num == 2
-		$letter2 = nil
-		loop do
-			puts "player1, choose 'X' or 'O'?"
-			$letter1 = gets.chomp.upcase
-			break if $letter1 == 'X' || $letter1 == 'O'
-		end
-		$letter2 = $letter1 == 'X' ? 'O' : 'X'
-		puts "player2, whats your name?"
-		name2 = gets.chomp
-		name2 = user2 if name2 == ''
-		$player1 = Player.new(name1, $letter1)
-		$player2 = Player.new(name2, $letter2)
-	else
-		puts "player1, whats your name?"
-		name1 = gets.chomp
-		name1 = user1 if name1 == ''
+  puts "player1, whats your name?"
+  name1 = gets.chomp
+  name1 = 'user1' if name1 == ''
+  $letter2 = nil
 
-		puts "player1, choose 'X' or 'O'?"
-		$letter1 = gets.chomp.upcase
-		loop do
-			puts "player1, choose 'X' or 'O'?"
-			$letter1 = gets.chomp.upcase
-			break if $letter1 == 'X' || $letter1 == 'O'
-		end
-		$letter2 = $letter1 == 'X' ? 'O' : 'X'	
-		$player1 = Player.new(name1, letter1)
-		# player2 = Player.new(name2, letter2)
-	end
+  if $players_num == 2
+
+    loop do
+      puts "player1, choose 'X' or 'O'?"
+      $letter1 = gets.chomp.upcase
+      break if $letter1 == 'X' || $letter1 == 'O'
+    end
+    $letter2 = $letter1 == 'X' ? 'O' : 'X'
+
+    puts "player2, whats your name?"
+    name2 = gets.chomp
+    name2 = user2 if name2 == ''
+    $player1 = Player.new(name1, $letter1)
+    $player2 = Player.new(name2, $letter2)
+
+  else
+
+    loop do
+      puts "player1, choose 'X' or 'O'?"
+      $letter1 = gets.chomp.upcase
+      break if $letter1 == 'X' || $letter1 == 'O'
+    end
+    $letter2 = $letter1 == 'X' ? 'O' : 'X'
+
+    name2 = "computer"
+    $player1 = Player.new(name1, $letter1)
+    $player2 = Player.new(name2, $letter2)
+
+    $player1 = Player.new(name1, letter1)
+    # player2 = Player.new(name2, letter2)
+  end
 end
 get_details
 
 def tournament
-	puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
-	tour = gets.chomp.downcase
-	if tour == 'y'
-		loop do
-			puts "how many games do you want to play at a goal? put in a number between 1 and 5"
-			$t = gets.chomp.to_i
-			break if $t.class == Integer && ($t > 1 && $t < 5)
-		end
-		tournament1 = Tournament.new($t)
-		tournament1
-	else
-		puts "You can play for as long as you like"
-	end
+  puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
+  tour = gets.chomp.downcase
+  if tour == 'y'
+    loop do
+      puts "how many games do you want to play at a goal? put in a number between 1 and 5"
+      $t = gets.chomp.to_i
+      break if $t.class == Integer && ($t > 1 && $t < 5)
+    end
+    tournament1 = Tournament.new($t)
+    tournament1
+  else
+    puts "You can play for as long as you like"
+  end
 end
 $tournament = tournament
 
@@ -287,46 +291,46 @@ puts $player2.letter
 
 
 def runGame(player1, player2)
-	tictac = Board.new
-	score = Scoreboard.new
+  tictac = Board.new
+  score = Scoreboard.new
 
-	# if !$tournament.nil?
+  # if !$tournament.nil?
 
-	# end
-	
-	display_score = lambda do
-		puts "Score:"
-		print score.x_score
-		print "    X"
-		print "     "
-		print score.o_score
-		print "    O"
-		puts "      "
-	end
+  # end
+  
+  display_score = lambda do
+    puts "Score:"
+    print score.x_score
+    print "    X"
+    print "     "
+    print score.o_score
+    print "    O"
+    puts "      "
+  end
 
-	loop do
-		tictac.play(player1.letter, player1.name)
-		win = tictac.checkmatch(player1.letter)
-		display_score.call
-		if win == player1.letter
-			score.increment_score(player1.letter)
-			display_score.call
-			puts "#{player1.name} you have won"
-			return
-		end
-		# if tictac.val == 10
-		# 	break
-		# end
-		tictac.play(player2.letter, player2.name)
-		win1 = tictac.checkmatch(player2.letter)
-		display_score.call
-		if win1 == player2.letter
-			score.increment_score(player2.letter)
-			display_score.call
-			puts "#{player2.name} you have won"
-			return
-		end
-	end
+  loop do
+    tictac.play(player1.letter, player1.name)
+    win = tictac.checkmatch(player1.letter)
+    display_score.call
+    if win == player1.letter
+      score.increment_score(player1.letter)
+      display_score.call
+      puts "#{player1.name} you have won"
+      return
+    end
+    # if tictac.val == 10
+    # 	break
+    # end
+    tictac.play(player2.letter, player2.name)
+    win1 = tictac.checkmatch(player2.letter)
+    display_score.call
+    if win1 == player2.letter
+      score.increment_score(player2.letter)
+      display_score.call
+      puts "#{player2.name} you have won"
+      return
+    end
+  end
 end
 runGame(players[0], players[1])
 
