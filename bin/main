@@ -72,15 +72,38 @@ class Game
 
 	def play(character, name)
 		loop do
-			arr = @squares.select { |key, value|  value == '-'}
-			puts arr
+			board = @squares.select { |key, value|  value == '-' }
+			p board
 			arr1 = []
-			arr.each { |k, v|  arr1 << k }
-			puts "choose a random number from #{arr1.each { |n| p n }} that represents each slot"
+			board.each { |k, v|  arr1 << k }
+			puts "choose a random number from #{arr1} that represents each slot"
 			@slot = gets.chomp.to_i
-			break if arr[@slot] == '-'
+			break if board[@slot] == '-';
 		end
 		@squares[@slot] = character
+		puts "                 "
+		print 1
+		print "  "
+		print 2
+		print "  "
+		print 3
+		puts "                 "
+		print 4
+		print "  "
+		print 5
+		print "  "
+		print 6
+		puts "                 "
+		print 7
+		print "  "
+		print 8
+		print "  "
+		print 9
+		puts "                 "
+		puts "
+		
+		"
+
 		puts "                 "
 		print @squares[1]
 		print "  "
@@ -208,20 +231,12 @@ def get_details
 
 	if $players_num == 2
 		$letter2 = nil
-		# puts "player1, choose 'x' or 'o'?"
-		# letter1 = gets.chomp.downcase
 		loop do
 			puts "player1, choose 'x' or 'o'?"
 			$letter1 = gets.chomp.downcase
-			break if $letter1 != 'x' || $letter1 != 'o'
+			break if $letter1 == 'x' || $letter1 == 'o'
 		end
-		# while letter1 != 'x' || letter1 != 'o'
-			# puts "player1, choose 'x' or 'o'?"
-			# letter1 = gets.chomp.downcase
-		# end
-
 		$letter2 = $letter1  == 'x' ? 'o' : 'x'
-
 		puts "player2, whats your name?"
 		name2 = gets.chomp
 		name2 = user2 if name2 == ''
@@ -246,14 +261,10 @@ end
 get_details
 
 # player(player1, player2)
-
-
 # def player(*opponents)
 # 	opponents
 # end
 # players = player(player1, player2)
-
-
 # players.each do |play|
 # 	if players.size == 1
 # 	end
