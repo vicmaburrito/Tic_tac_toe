@@ -186,11 +186,12 @@ end
 
 # class Game; end
 
-# class Tournament
-# 	def initialize(limit)5
-# 		@limit = limit
-# 	end
-# end
+class Tournament
+	attr_accessor :limit
+	def initialize(limit)
+		@limit = limit
+	end
+end
 
 # class Automode < Player
 # 	def initialize(limit)
@@ -248,13 +249,30 @@ def get_details
 			$letter1 = gets.chomp.upcase
 			break if $letter1 == 'X' || $letter1 == 'O'
 		end
-		$letter2 = $letter1 == 'X' ? 'O' : 'X'
+		$letter2 = $letter1 == 'X' ? 'O' : 'X'	
 		$player1 = Player.new(name1, letter1)
 		# player2 = Player.new(name2, letter2)
 	end
 end
 get_details
 
+def tournament
+	puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
+	tour = gets.chomp.downcase
+	if tour == 'y'
+		puts "how many games do you want to play at a goal?"
+		t = gets.chomp.to_i
+		loop do
+			puts "put in a number between 1 and 5"
+			t = gets.chomp.to_i
+			break if t.class == Integer && (t > 1 && t < 5)
+		end
+		$tournament = Tournament.new(t)
+	else
+		puts "You can play for as long as you like"
+	end
+end
+tournament
 
 def player(*opponents)
 	opponents
@@ -272,6 +290,10 @@ puts $player2.letter
 def runGame(player1, player2)
 	tictac = Board.new
 	score = Scoreboard.new
+
+	# if tournament > 0
+	# end
+	
 	display_score = lambda do
 		puts "Score:"
 		print score.x_score
@@ -281,6 +303,7 @@ def runGame(player1, player2)
 		print "    O"
 		puts "      "
 	end
+
 	loop do
 		tictac.play(player1.letter, player1.name)
 		win = tictac.checkmatch(player1.letter)
@@ -291,11 +314,9 @@ def runGame(player1, player2)
 			puts "#{player1.name} you have won"
 			return
 		end
-
 		# if tictac.val == 10
 		# 	break
 		# end
-		
 		tictac.play(player2.letter, player2.name)
 		win1 = tictac.checkmatch(player2.letter)
 		display_score.call
@@ -305,10 +326,7 @@ def runGame(player1, player2)
 			puts "#{player2.name} you have won"
 			return
 		end
-
-		# i+= 2
 	end
-
 end
 runGame(players[0], players[1])
 
