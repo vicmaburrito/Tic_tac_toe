@@ -38,17 +38,23 @@ class Player
 		@letter = letter
 	end
 
-	def pick_slot(value)
-		if !$values.include? value
-			return "#{value} is not allowed, pick a number from 1 to 9"
+	def self.pick_slot
+		loop do
+			board = Board.squares.select { |key, value|  value == '-' }
+			p board
+			arr1 = []
+			board.each { |k, v|  arr1 << k }
+			puts "choose a random number from #{arr1} that represents each slot"
+			@slot = gets.chomp.to_i
+			break if board[@slot] == '-';
 		end
-		@value = value - 1
+		@slot
 	end
 end
 
 
-class Game
-	attr_accessor :empty_squares, :num, :val, :squares
+class Board
+	attr_accessor :empty_squares, :num, :val
 	@@squares = {
 		1 => '-',
 		2 => '-',
@@ -60,37 +66,17 @@ class Game
 		8 => '-',
 		9 => '-'
 	}
-	$values = (1..9).to_a
 	$played = false
 
 	def initialize
 		@num = nil
 		@empty_squares = nil
 		@val = 0
-		# @squares = {
-		# 	1 => '-',
-		# 	2 => '-',
-		# 	3 => '-',
-		# 	4 => '-',
-		# 	5 => '-',
-		# 	6 => '-',
-		# 	7 => '-',
-		# 	8 => '-',
-		# 	9 => '-'
-		# }
 	end
 
 	def play(character, name)
-		loop do
-			board = @@squares.select { |key, value|  value == '-' }
-			p board
-			arr1 = []
-			board.each { |k, v|  arr1 << k }
-			puts "choose a random number from #{arr1} that represents each slot"
-			@slot = gets.chomp.to_i
-			break if board[@slot] == '-';
-		end
-		@@squares[@slot] = character
+		# Player.pick_slot
+		@@squares[Player.pick_slot] = character
 		puts "                 "
 		print 1
 		print "  "
@@ -110,9 +96,7 @@ class Game
 		print "  "
 		print 9
 		puts "                 "
-		# puts "
-		
-		# "
+
 		puts "                 "
 		print @@squares[1]
 		print "  "
@@ -177,9 +161,9 @@ class Game
 		end
 	end
 
-	# def self.display_squares
-	# 	@@squares
-	# end
+	def self.squares
+		@@squares
+	end
 end
 
 class Scoreboard
@@ -200,13 +184,15 @@ class Scoreboard
 	end
 end
 
+# class Game; end
+
 # class Tournament
 # 	def initialize(limit)5
 # 		@limit = limit
 # 	end
 # end
 
-# class Automode < Game
+# class Automode < Board
 # 	def initialize(limit)
 # 		@limit = limit
 # 	end
@@ -283,8 +269,9 @@ puts $player1.letter
 puts $player2.name
 puts $player2.letter
 
-tictac = Game.new
+tictac = Board.new
 score = Scoreboard.new
 tictac.play($player1.letter, $player1.name)
 tictac.play($player2.letter, $player2.name)
+
 
