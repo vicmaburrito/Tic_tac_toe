@@ -260,19 +260,18 @@ def tournament
 	puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
 	tour = gets.chomp.downcase
 	if tour == 'y'
-		puts "how many games do you want to play at a goal?"
-		t = gets.chomp.to_i
 		loop do
-			puts "put in a number between 1 and 5"
-			t = gets.chomp.to_i
-			break if t.class == Integer && (t > 1 && t < 5)
+			puts "how many games do you want to play at a goal? put in a number between 1 and 5"
+			$t = gets.chomp.to_i
+			break if $t.class == Integer && ($t > 1 && $t < 5)
 		end
-		$tournament = Tournament.new(t)
+		tournament1 = Tournament.new($t)
+		tournament1
 	else
 		puts "You can play for as long as you like"
 	end
 end
-tournament
+$tournament = tournament
 
 def player(*opponents)
 	opponents
@@ -291,7 +290,8 @@ def runGame(player1, player2)
 	tictac = Board.new
 	score = Scoreboard.new
 
-	# if tournament > 0
+	# if !$tournament.nil?
+
 	# end
 	
 	display_score = lambda do
