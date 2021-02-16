@@ -62,7 +62,7 @@ class Player
 			print "  "
 			print 9
 			puts "                 "
-      puts "#{@name}Choose a random number from #{arr1} that represents each slot"
+      puts "#{@name} Choose a random number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
       break if board[@slot] == '-';
     end
@@ -144,8 +144,6 @@ class Board
     # 	return
     # end
 
-    # @played = !@played
-
     # res = checkmatch(@slot)
     # puts res
     # if res == character
@@ -212,11 +210,100 @@ class Tournament
   end
 end
 
-# class Automode < Player
-# 	def initialize(limit)
-# 		@limit = limit
-# 	end
-# end
+
+class AutoPlayer < Player
+	def self.pick_slot
+		board = Board.squares.select { |_key, value| value == '-' }
+		arr1 = []
+		board.each { |k, v|  arr1 << k }
+		puts "                 "
+		print 1
+		print "  "
+		print 2
+		print "  "
+		print 3
+		puts "                 "
+		print 4
+		print "  "
+		print 5
+		print "  "
+		print 6
+		puts "                 "
+		print 7
+		print "  "
+		print 8
+		print "  "
+		print 9
+		puts "                 "
+		puts "its #{@name} turn to choose a random number from #{arr1}"
+		loop do
+			@slot = arr1.sample
+			break if board[@slot] == '-';
+		end
+		@slot
+	end
+end
+
+class AutoBoard < Board
+	def play(character, name)
+    # Player.pick_slot
+    @@squares[AutoPlayer.pick_slot] = character
+    puts "                 "
+    print 1
+    print "  "
+    print 2
+    print "  "
+    print 3
+    puts "                 "
+    print 4
+    print "  "
+    print 5
+    print "  "
+    print 6
+    puts "                 "
+    print 7
+    print "  "
+    print 8
+    print "  "
+    print 9
+    puts "                 "
+
+    puts "                 "
+    print @@squares[1]
+    print "  "
+    print @@squares[2]
+    print "  "
+    print @@squares[3] 
+    puts "                 "
+    print @@squares[4]
+    print "  "
+    print @@squares[5]
+    print "  "
+    print @@squares[6]
+    puts "                 "
+    print @@squares[7]
+    print "  "
+    print @@squares[8]
+    print "  "
+    print @@squares[9] 
+    puts "                 "
+    puts "
+    
+    "
+    @val += 1
+
+    # if @val == 10
+    # 	return
+    # end
+
+    # res = checkmatch(@slot)
+    # puts res
+    # if res == character
+    # 	puts "#{name} has won"
+    # 	return
+    # end
+  end
+end
  
 
 def init
@@ -248,8 +335,9 @@ def get_details
   if $players_num == 2
     loop do
       puts "player1, choose 'X' or 'O'?"
-      $letter1 = gets.chomp.upcase
-      break if $letter1 == 'X' || $letter1 == 'O'
+			$letter1 = gets.chomp.upcase
+			break if $letter1 == 'X' || $letter1 == 'O'
+			puts "You cannot choose any other character except 'X' or 'O'"
     end
     $letter2 = $letter1 == 'X' ? 'O' : 'X'
 
@@ -257,23 +345,20 @@ def get_details
     name2 = gets.chomp
     name2 = user2 if name2 == ''
     $player1 = Player.new(name1, $letter1)
-    $player2 = Player.new(name2, $letter2)
-
-  else
-
+		$player2 = Player.new(name2, $letter2)
+		
+	elsif $players_num == 1
     loop do
       puts "player1, choose 'X' or 'O'?"
       $letter1 = gets.chomp.upcase
-      break if $letter1 == 'X' || $letter1 == 'O'
+			break if $letter1 == 'X' || $letter1 == 'O'
+			puts "You cannot choose any other character except 'X' or 'O'"
     end
-    $letter2 = $letter1 == 'X' ? 'O' : 'X'
-
-    name2 = "computer"
+		$letter2 = $letter1 == 'X' ? 'O' : 'X'
+		
+		name2 = ['Ruby', 'Micheal', 'John Doe'].sample
     $player1 = Player.new(name1, $letter1)
-    $player2 = Player.new(name2, $letter2)
-
-    $player1 = Player.new(name1, letter1)
-    # player2 = Player.new(name2, letter2)
+    $player2 = AutoPlayer.new(name2, $letter2)
   end
 end
 get_details
@@ -285,7 +370,8 @@ def tournament
     loop do
       puts "how many games do you want to play at a goal? put in a number between 1 and 5"
       $t = gets.chomp.to_i
-      break if $t.class == Integer && ($t > 1 && $t < 5)
+			break if $t.class == Integer && ($t > 1 && $t < 5)
+			puts "The game is only limited to 5 games"
     end
     tournament1 = Tournament.new($t)
     tournament1
@@ -309,12 +395,10 @@ puts $player2.letter
 
 def runGame(player1, player2)
   tictac = Board.new
-  score = Scoreboard.new
-
+	score = Scoreboard.new
+	tictactoe = AutoBoard.new
   # if !$tournament.nil?
-
   # end
-  
   display_score = lambda do
     puts "Score:"
     print score.x_score
@@ -324,7 +408,6 @@ def runGame(player1, player2)
     print "    O"
     puts "      "
   end
-
 	loop do
     tictac.play(player1.letter, player1.name)
     win = tictac.checkmatch(player1.letter)
@@ -339,18 +422,28 @@ def runGame(player1, player2)
 			puts "There was no winner"
 			break
 		end
-    tictac.play(player2.letter, player2.name)
-    win1 = tictac.checkmatch(player2.letter)
-    display_score.call
-    if win1 == player2.letter
-      score.increment_score(player2.letter)
-      display_score.call
-      puts "#{player2.name} you have won!!"
-      break
+		if $players_num == 1
+			tictactoe.play(player2.letter, player2.name)
+   	 	win1 = tictactoe.checkmatch(player2.letter)
+    	display_score.call
+    	if win1 == player2.letter
+				score.increment_score(player2.letter)
+				display_score.call
+				puts "#{player2.name} you have won!!"
+				break
+			end
+		else
+			tictac.play(player2.letter, player2.name)
+			win1 = tictac.checkmatch(player2.letter)
+			display_score.call
+			if win1 == player2.letter
+				score.increment_score(player2.letter)
+				display_score.call
+				puts "#{player2.name} you have won!!"
+				break
+			end
 		end
-		
-
-  end
+	end
 end
 runGame(players[0], players[1])
 
