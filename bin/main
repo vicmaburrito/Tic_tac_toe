@@ -31,49 +31,43 @@ puts '
 
 
 class Player
+	$display_guide = Proc.new do 
+		puts "
+    "
+		puts "1 | 2 | 3"
+		puts '---------'
+		puts "4 | 5 | 6"
+		puts '---------'
+		puts "7 | 8 | 9"
+		puts "
+    "
+	end
+
 	attr_reader :name
 	attr_reader :letter
+
   def initialize(name, letter)
 		@name = name
 		@letter = letter
   end
 
-  def self.pick_slot
+	def self.pick_slot
     loop do
       board = Board.squares.select { |_key, value| value == '-' }
       arr1 = []
 			board.each { |k, v|  arr1 << k }
-			puts "                 "
-			print 1
-			print "  "
-			print 2
-			print "  "
-			print 3
-			puts "                 "
-			print 4
-			print "  "
-			print 5
-			print "  "
-			print 6
-			puts "                 "
-			print 7
-			print "  "
-			print 8
-			print "  "
-			print 9
-			puts "                 "
+			$display_guide.call
       puts "#{@name} Choose a random number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
       break if board[@slot] == '-';
     end
     @slot
 	end
-
 end
 
 
 class Board
-  attr_accessor :empty_squares, :num, :val
+  attr_reader :val
   @@squares = {
     1 => '-',
     2 => '-',
@@ -84,65 +78,25 @@ class Board
     7 => '-',
     8 => '-',
     9 => '-'
-  }
-  $played = false
+	}
 
+	$display_slots = Proc.new do
+		puts "#{@@squares[1]}  #{@@squares[2]}  #{@@squares[3]}"
+		puts "#{@@squares[4]}  #{@@squares[5]}  #{@@squares[6]}"
+		puts "#{@@squares[7]}  #{@@squares[8]}  #{@@squares[9]}"
+		puts "
+    "
+	end
+	
   def initialize
-    @num = nil
-    @empty_squares = nil
     @val = 0
   end
 
   def play(character, name)
-    # Player.pick_slot
     @@squares[Player.pick_slot] = character
-    puts "                 "
-    print 1
-    print "  "
-    print 2
-    print "  "
-    print 3
-    puts "                 "
-    print 4
-    print "  "
-    print 5
-    print "  "
-    print 6
-    puts "                 "
-    print 7
-    print "  "
-    print 8
-    print "  "
-    print 9
-    puts "                 "
-
-    puts "                 "
-    print @@squares[1]
-    print "  "
-    print @@squares[2]
-    print "  "
-    print @@squares[3] 
-    puts "                 "
-    print @@squares[4]
-    print "  "
-    print @@squares[5]
-    print "  "
-    print @@squares[6]
-    puts "                 "
-    print @@squares[7]
-    print "  "
-    print @@squares[8]
-    print "  "
-    print @@squares[9] 
-    puts "                 "
-    puts "
-    
-    "
+		$display_guide.call
+		$display_slots.call
     @val += 1
-
-    # if @val == 10
-    # 	return
-    # end
 
     # res = checkmatch(@slot)
     # puts res
@@ -157,11 +111,15 @@ class Board
     attr_accessor :squares
   end
 
-  def stop
-    attr_reader :squares
-  end
+	def checkmatch(char)
+		# win_combinations = [[1,2,3] [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 
-  def checkmatch(char)
+		# for combination in win_combinations do
+		# 	if @@squares[i[0]] == char && @@squares[i[1]] == char && @@squares[i[2]] == char
+		# 		return char
+		# 	end
+		# end
+
     if @@squares[1] == char && @@squares[2] == char && @@squares[3] == char
       return char
     elsif @@squares[4] == char && @@squares[5] == char && @@squares[6] == char
@@ -216,86 +174,27 @@ class AutoPlayer < Player
 		board = Board.squares.select { |_key, value| value == '-' }
 		arr1 = []
 		board.each { |k, v|  arr1 << k }
-		puts "                 "
-		print 1
-		print "  "
-		print 2
-		print "  "
-		print 3
-		puts "                 "
-		print 4
-		print "  "
-		print 5
-		print "  "
-		print 6
-		puts "                 "
-		print 7
-		print "  "
-		print 8
-		print "  "
-		print 9
-		puts "                 "
+		$display_guide.call
 		puts "its #{@name} turn to choose a random number from #{arr1}"
 		loop do
-			@slot = arr1.sample
-			break if board[@slot] == '-';
+			$slot = arr1.sample
+			break if board[$slot] == '-';
 		end
-		@slot
+		$slot
 	end
 end
 
 class AutoBoard < Board
 	def play(character, name)
-    # Player.pick_slot
-    @@squares[AutoPlayer.pick_slot] = character
-    puts "                 "
-    print 1
-    print "  "
-    print 2
-    print "  "
-    print 3
-    puts "                 "
-    print 4
-    print "  "
-    print 5
-    print "  "
-    print 6
-    puts "                 "
-    print 7
-    print "  "
-    print 8
-    print "  "
-    print 9
-    puts "                 "
+		@@squares[AutoPlayer.pick_slot] = character
+		puts $slot
+		$display_guide.call
+		$display_slots.call
 
-    puts "                 "
-    print @@squares[1]
-    print "  "
-    print @@squares[2]
-    print "  "
-    print @@squares[3] 
-    puts "                 "
-    print @@squares[4]
-    print "  "
-    print @@squares[5]
-    print "  "
-    print @@squares[6]
-    puts "                 "
-    print @@squares[7]
-    print "  "
-    print @@squares[8]
-    print "  "
-    print @@squares[9] 
-    puts "                 "
-    puts "
-    
-    "
     @val += 1
-
     # if @val == 10
     # 	return
     # end
-
     # res = checkmatch(@slot)
     # puts res
     # if res == character
@@ -363,23 +262,25 @@ def get_details
 end
 get_details
 
-def tournament
-  puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
-  tour = gets.chomp.downcase
-  if tour == 'y'
-    loop do
-      puts "how many games do you want to play at a goal? put in a number between 1 and 5"
-      $t = gets.chomp.to_i
-			break if $t.class == Integer && ($t > 1 && $t < 5)
-			puts "The game is only limited to 5 games"
-    end
-    tournament1 = Tournament.new($t)
-    tournament1
-  else
-    puts "You can play for as long as you like!!"
-  end
-end
-$tournament = tournament
+
+# def tournament
+#   puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
+#   tour = gets.chomp.downcase
+#   if tour == 'y'
+#     loop do
+#       puts "how many games do you want to play at a goal? put in a number between 1 and 5"
+#       $t = gets.chomp.to_i
+# 			break if $t.class == Integer && ($t > 1 && $t < 5)
+# 			puts "The game is only limited to 5 games"
+#     end
+#     tournament1 = Tournament.new($t)
+#     tournament1
+#   else
+#     puts "You can play for as long as you like!!"
+#   end
+# end
+# $tournament = tournament
+
 
 def player(*opponents)
 	opponents
