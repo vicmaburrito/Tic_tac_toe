@@ -22,4 +22,34 @@ class Player
       @record = []
     end
   end
- 
+
+  puts 'Player 1 please input your name'
+name = gets.strip
+token = 'X'
+Player_1 = Player.new(name, token)
+puts 'Player 2 please input your name'
+name = gets.strip
+token = 'O'
+Player_2 = Player.new(name, token)
+game_board = Board.new
+count = 1
+game_on = true
+while game_on
+  puts game_board.display_board
+  current_player = if count.odd?
+                     Player_1
+                   else
+                     Player_2
+                   end
+                   puts "#{current_player.name} it is your turn, please make your move"
+                   move = gets.strip
+                   gamecheck = game_board.board[move.to_i - 1]
+                   puts 'Move is not valid, Make a valid move' unless move.to_i == gamecheck
+                   current_player.record << move.to_i
+                   game_board.board[move.to_i - 1] = current_player.sign
+                   count += 1
+                   if count == 10
+                     puts 'The game is a draw'
+                     break
+                   end
+                 end
