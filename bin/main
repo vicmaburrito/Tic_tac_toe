@@ -112,31 +112,31 @@ class Board
   end
 
 	def checkmatch(char)
-		# win_combinations = [[1,2,3] [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
+		win_combinations = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
 
-		# for combination in win_combinations do
-		# 	if @@squares[i[0]] == char && @@squares[i[1]] == char && @@squares[i[2]] == char
-		# 		return char
-		# 	end
-		# end
+		for i in win_combinations do
+			if @@squares[i[0]] == char && @@squares[i[1]] == char && @@squares[i[2]] == char
+				return char
+			end
+		end
 
-    if @@squares[1] == char && @@squares[2] == char && @@squares[3] == char
-      return char
-    elsif @@squares[4] == char && @@squares[5] == char && @@squares[6] == char
-      return char
-    elsif @@squares[7] == char && @@squares[8] == char && @@squares[9] == char
-      return char
-    elsif @@squares[1] == char && @@squares[4] == char && @@squares[7] == char
-      return char
-    elsif @@squares[2] == char && @@squares[5] == char && @@squares[8] == char
-      return char
-    elsif @@squares[3] == char && @@squares[6] == char && @@squares[9] == char
-      return char
-    elsif @@squares[1] == char && @@squares[5] == char && @@squares[9] == char
-      return char
-    elsif @@squares[3] == char && @@squares[5] == char && @@squares[7] == char
-      return char
-    end
+  #   if @@squares[1] == char && @@squares[2] == char && @@squares[3] == char
+  #     return char
+  #   elsif @@squares[4] == char && @@squares[5] == char && @@squares[6] == char
+  #     return char
+  #   elsif @@squares[7] == char && @@squares[8] == char && @@squares[9] == char
+  #     return char
+  #   elsif @@squares[1] == char && @@squares[4] == char && @@squares[7] == char
+  #     return char
+  #   elsif @@squares[2] == char && @@squares[5] == char && @@squares[8] == char
+  #     return char
+  #   elsif @@squares[3] == char && @@squares[6] == char && @@squares[9] == char
+  #     return char
+  #   elsif @@squares[1] == char && @@squares[5] == char && @@squares[9] == char
+  #     return char
+  #   elsif @@squares[3] == char && @@squares[5] == char && @@squares[7] == char
+  #     return char
+  #   end
   end
 
   def self.squares
@@ -258,7 +258,8 @@ def get_details
 		name2 = ['Ruby', 'Micheal', 'John Doe'].sample
     $player1 = Player.new(name1, $letter1)
     $player2 = AutoPlayer.new(name2, $letter2)
-  end
+	end
+	
 end
 get_details
 
@@ -318,11 +319,13 @@ def runGame(player1, player2)
       display_score.call
       puts "#{player1.name} you have won!!"
       break
-    end
+		end
+		
 		if tictac.val == 9
 			puts "There was no winner"
 			break
 		end
+
 		if $players_num == 1
 			tictactoe.play(player2.letter, player2.name)
    	 	win1 = tictactoe.checkmatch(player2.letter)
