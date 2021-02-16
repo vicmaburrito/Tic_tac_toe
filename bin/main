@@ -3,11 +3,12 @@
 puts '
 _______ _          _______             _______
 |__   __(_)        |__   __|           |__   __|
-	 | |   _  ___ ______| | __ _  ___ ______| | ___   ___
-	 | |  | |/ __|______| |/ _` |/ __|______| |/ _ \ / _ \
-	 | |  | | (__       | | (_| | (__       | | (_) |  __/
-	 |_|  |_|\___|      |_|\__,_|\___|      |_|\___/ \___|
-'
+   | |   _  ___ ______| | __ _  ___ ______| | ___   ___
+   | |  | |/ __|______| |/ _` |/ __|______| |/ _ \ / _ \
+   | |  | | (__       | | (_| | (__       | | (_) |  __/
+   |_|  |_|\___|      |_|\__,_|\___|      |_|\___/ \___|
+	 '
+	 
 puts '
 
 
@@ -19,8 +20,7 @@ puts '
 
 
 '
-puts "Hi #{user}" 
-puts "Welcome to TIC TAC TOE game"
+puts "Hi #{user}, Welcome to TIC TAC TOE game"
 
 puts '
 
@@ -31,25 +31,44 @@ puts '
 
 
 class Player
-  attr_reader :name
-  attr_reader :letter
+	attr_reader :name
+	attr_reader :letter
   def initialize(name, letter)
-    @name = name
-    @letter = letter
+		@name = name
+		@letter = letter
   end
 
   def self.pick_slot
     loop do
-      board = Board.squares.select { |key, value|  value == '-' }
-      p board
+      board = Board.squares.select { |_key, value| value == '-' }
       arr1 = []
-      board.each { |k, v|  arr1 << k }
-      puts "choose a random number from #{arr1} that represents each slot"
+			board.each { |k, v|  arr1 << k }
+			puts "                 "
+			print 1
+			print "  "
+			print 2
+			print "  "
+			print 3
+			puts "                 "
+			print 4
+			print "  "
+			print 5
+			print "  "
+			print 6
+			puts "                 "
+			print 7
+			print "  "
+			print 8
+			print "  "
+			print 9
+			puts "                 "
+      puts "#{@name}Choose a random number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
       break if board[@slot] == '-';
     end
     @slot
-  end
+	end
+
 end
 
 
@@ -227,7 +246,6 @@ def get_details
   $letter2 = nil
 
   if $players_num == 2
-
     loop do
       puts "player1, choose 'X' or 'O'?"
       $letter1 = gets.chomp.upcase
@@ -272,7 +290,7 @@ def tournament
     tournament1 = Tournament.new($t)
     tournament1
   else
-    puts "You can play for as long as you like"
+    puts "You can play for as long as you like!!"
   end
 end
 $tournament = tournament
@@ -282,7 +300,6 @@ def player(*opponents)
 end
 
 players = player($player1, $player2)
-
 
 puts $player1.name
 puts $player1.letter
@@ -308,28 +325,31 @@ def runGame(player1, player2)
     puts "      "
   end
 
-  loop do
+	loop do
     tictac.play(player1.letter, player1.name)
     win = tictac.checkmatch(player1.letter)
     display_score.call
     if win == player1.letter
       score.increment_score(player1.letter)
       display_score.call
-      puts "#{player1.name} you have won"
-      return
+      puts "#{player1.name} you have won!!"
+      break
     end
-    # if tictac.val == 10
-    # 	break
-    # end
+		if tictac.val == 9
+			puts "There was no winner"
+			break
+		end
     tictac.play(player2.letter, player2.name)
     win1 = tictac.checkmatch(player2.letter)
     display_score.call
     if win1 == player2.letter
       score.increment_score(player2.letter)
       display_score.call
-      puts "#{player2.name} you have won"
-      return
-    end
+      puts "#{player2.name} you have won!!"
+      break
+		end
+		
+
   end
 end
 runGame(players[0], players[1])
