@@ -39,6 +39,7 @@ name = gets.strip
 token = 'O'
 Player_2 = Player.new(name, token)
 game_board = Board.new
+# win_combination = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
 count = 1
 game_on = true
 while game_on
@@ -54,6 +55,10 @@ while game_on
   puts 'Move is not valid, Make a valid move' unless move.to_i == gamecheck
   current_player.record << move.to_i
   game_board.board[move.to_i - 1] = current_player.sign
+  #   if win_check(win_combination, current_player.record)
+  #     puts '#{current_player.name} is the winner for this round'
+  #     game_on = false
+  #   end
   count += 1
   if count == 10
     puts 'The game is a draw'
