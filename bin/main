@@ -96,24 +96,28 @@ class Board
 		$display_guide.call
 		$display_slots.call
     @val += 1
-
-    # res = checkmatch(@slot)
-    # puts res
-    # if res == character
-    # 	puts "#{name} has won"
-    # 	return
-    # end
   end
 
   def reset
-    @squares = Hash.new(nil)
-    attr_accessor :squares
+		@@squares = {
+			1 => '-',
+			2 => '-',
+			3 => '-',
+			4 => '-',
+			5 => '-',
+			6 => '-',
+			7 => '-',
+			8 => '-',
+			9 => '-'
+		}
+		@val = 0
+		# Scoreboard.reset
   end
 
 	def checkmatch(char)
 		win_combinations = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
-		for i in win_combinations do
-			if @@squares[i[0]] == char && @@squares[i[1]] == char && @@squares[i[2]] == char
+		for nums in win_combinations do
+			if @@squares[nums[0]] == char && @@squares[nums[1]] == char && @@squares[nums[2]] == char
 				return char
 			end
 		end
@@ -136,7 +140,13 @@ class Scoreboard
   def increment_score(char)
     @x_score += 1 if char == 'X'
     @o_score += 1 if char == 'O'
+	end
+	
+	def self.reset
+		@x_score = 0
+    @o_score = 0
   end
+
 end
 
 # class Game; end
@@ -170,17 +180,7 @@ class AutoBoard < Board
 		puts $slot
 		$display_guide.call
 		$display_slots.call
-
     @val += 1
-    # if @val == 10
-    # 	return
-    # end
-    # res = checkmatch(@slot)
-    # puts res
-    # if res == character
-    # 	puts "#{name} has won"
-    # 	return
-    # end
   end
 end
  
@@ -273,17 +273,17 @@ puts $player2.name
 puts $player2.letter
 
 def runGame(player1, player2)
-  tictac = Board.new
-	score = Scoreboard.new
-	tictactoe = AutoBoard.new
+  $tictac = Board.new
+	$score = Scoreboard.new
+	$tictactoe = AutoBoard.new
   # if !$tournament.nil?
   # end
   display_score = lambda do
     puts "Score:"
-    print score.x_score
+    print $score.x_score
     print "    X"
     print "     "
-    print score.o_score
+    print $score.o_score
     print "    O"
     puts "      "
 	end
@@ -293,30 +293,52 @@ def runGame(player1, player2)
     win = instance.checkmatch(symbol)
     display_score.call
     if win == symbol
-      score.increment_score(symbol)
+      $score.increment_score(symbol)
       display_score.call
-      puts "#{name} you have won!!"
+			puts "#{name} you have won!!"
       return 'y'
 		end
 	end
 
 	loop do
-		res = run.call(tictac, player1.letter, player1.name)
+		res = run.call($tictac, player1.letter, player1.name)
 		break if res == 'y'
-		if tictac.val == 9
+		if $tictac.val == 9 || $tictactoe.val == 9
 			puts "There was no winner"
 			break
 		end
 		if $players_num == 1
-			res3 = run.call(tictactoe, player2.letter, player2.name)
-			break if res3 == 'y'
-		else
-			res1 = run.call(tictac, player2.letter, player2.name)
+			res1 = run.call($tictactoe, player2.letter, player2.name)
 			break if res1 == 'y'
+		else
+			res2 = run.call($tictac, player2.letter, player2.name)
+			break if res2 == 'y'
 		end
 	end
 
+	# loop do
+	# 	puts "Play Again? type 'y' for YES or 'n' for NO"
+	# 	play_again = gets.chomp.to_i
+	# 	break if play_again == 'y' || play_again == 'n'
+	# end
+	# if play_again == 'y'
+	# 	tictac.reset
+	# 	tictactoe.reset
+	# 	runGame(players[0], players[1])
+	# else
+	# 	puts "Press 'Control C' to start a newgame"
+	# 	return
+	# end
+
 end
-runGame(players[0], players[1])
+
+i = 0
+loop do
+	runGame(players[0], players[1])
+	$tictac.reset
+	$tictactoe.reset
+	i+=1
+	break if i == 3
+end
 
 
