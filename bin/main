@@ -31,18 +31,6 @@ puts '
 
 
 class Player
-	$display_guide = Proc.new do 
-		puts "
-    "
-		puts "1 | 2 | 3"
-		puts '---------'
-		puts "4 | 5 | 6"
-		puts '---------'
-		puts "7 | 8 | 9"
-		puts "
-    "
-	end
-
 	attr_reader :name
 	attr_reader :letter
 
@@ -55,7 +43,7 @@ class Player
     loop do
       board = Board.squares.select { |_key, value| value == '-' }
       arr1 = []
-			board.each { |k, v|  arr1 << k }
+			board.each { |k, _v|  arr1 << k }
 			$display_guide.call
       puts "#{@name} Choose a random number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
@@ -67,6 +55,17 @@ end
 
 
 class Board
+	$display_guide = Proc.new do 
+		puts "
+    "
+		puts "1 | 2 | 3"
+		puts '---------'
+		puts "4 | 5 | 6"
+		puts '---------'
+		puts "7 | 8 | 9"
+		puts "
+    "
+	end
   attr_reader :val
   @@squares = {
     1 => '-',
@@ -113,30 +112,11 @@ class Board
 
 	def checkmatch(char)
 		win_combinations = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
-
 		for i in win_combinations do
 			if @@squares[i[0]] == char && @@squares[i[1]] == char && @@squares[i[2]] == char
 				return char
 			end
 		end
-
-  #   if @@squares[1] == char && @@squares[2] == char && @@squares[3] == char
-  #     return char
-  #   elsif @@squares[4] == char && @@squares[5] == char && @@squares[6] == char
-  #     return char
-  #   elsif @@squares[7] == char && @@squares[8] == char && @@squares[9] == char
-  #     return char
-  #   elsif @@squares[1] == char && @@squares[4] == char && @@squares[7] == char
-  #     return char
-  #   elsif @@squares[2] == char && @@squares[5] == char && @@squares[8] == char
-  #     return char
-  #   elsif @@squares[3] == char && @@squares[6] == char && @@squares[9] == char
-  #     return char
-  #   elsif @@squares[1] == char && @@squares[5] == char && @@squares[9] == char
-  #     return char
-  #   elsif @@squares[3] == char && @@squares[5] == char && @@squares[7] == char
-  #     return char
-  #   end
   end
 
   def self.squares
@@ -173,9 +153,9 @@ class AutoPlayer < Player
 	def self.pick_slot
 		board = Board.squares.select { |_key, value| value == '-' }
 		arr1 = []
-		board.each { |k, v|  arr1 << k }
+		board.each { |k, v| arr1 << k }
 		$display_guide.call
-		puts "its #{@name} turn to choose a random number from #{arr1}"
+		puts "its my turn to choose a random number from #{arr1}"
 		loop do
 			$slot = arr1.sample
 			break if board[$slot] == '-';
@@ -259,7 +239,6 @@ def get_details
     $player1 = Player.new(name1, $letter1)
     $player2 = AutoPlayer.new(name2, $letter2)
 	end
-	
 end
 get_details
 
@@ -286,14 +265,12 @@ get_details
 def player(*opponents)
 	opponents
 end
-
 players = player($player1, $player2)
 
 puts $player1.name
 puts $player1.letter
 puts $player2.name
 puts $player2.letter
-
 
 def runGame(player1, player2)
   tictac = Board.new
@@ -309,45 +286,36 @@ def runGame(player1, player2)
     print score.o_score
     print "    O"
     puts "      "
-  end
-	loop do
-    tictac.play(player1.letter, player1.name)
-    win = tictac.checkmatch(player1.letter)
+	end
+	
+	run = Proc.new do |instance, symbol, name|
+		instance.play(symbol, name)
+    win = instance.checkmatch(symbol)
     display_score.call
-    if win == player1.letter
-      score.increment_score(player1.letter)
+    if win == symbol
+      score.increment_score(symbol)
       display_score.call
-      puts "#{player1.name} you have won!!"
-      break
+      puts "#{name} you have won!!"
+      return 'y'
 		end
-		
+	end
+
+	loop do
+		res = run.call(tictac, player1.letter, player1.name)
+		break if res == 'y'
 		if tictac.val == 9
 			puts "There was no winner"
 			break
 		end
-
 		if $players_num == 1
-			tictactoe.play(player2.letter, player2.name)
-   	 	win1 = tictactoe.checkmatch(player2.letter)
-    	display_score.call
-    	if win1 == player2.letter
-				score.increment_score(player2.letter)
-				display_score.call
-				puts "#{player2.name} you have won!!"
-				break
-			end
+			res3 = run.call(tictactoe, player2.letter, player2.name)
+			break if res3 == 'y'
 		else
-			tictac.play(player2.letter, player2.name)
-			win1 = tictac.checkmatch(player2.letter)
-			display_score.call
-			if win1 == player2.letter
-				score.increment_score(player2.letter)
-				display_score.call
-				puts "#{player2.name} you have won!!"
-				break
-			end
+			res1 = run.call(tictac, player2.letter, player2.name)
+			break if res1 == 'y'
 		end
 	end
+
 end
 runGame(players[0], players[1])
 
