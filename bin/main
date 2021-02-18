@@ -66,6 +66,7 @@ class Board
 		puts "
     "
 	end
+	$val = 0
   attr_reader :val
   @@squares = {
     1 => '-',
@@ -86,16 +87,12 @@ class Board
 		puts "
     "
 	end
-	
-  def initialize
-    @val = 0
-  end
 
   def play(character, name)
     @@squares[Player.pick_slot] = character
 		$display_guide.call
 		$display_slots.call
-    @val += 1
+    $val += 1
   end
 
   def reset
@@ -110,8 +107,7 @@ class Board
 			8 => '-',
 			9 => '-'
 		}
-		@val = 0
-		# Scoreboard.reset
+		$val = 0
   end
 
 	def checkmatch(char)
@@ -152,10 +148,16 @@ end
 # class Game; end
 
 class Tournament
-  attr_accessor :limit
-  def initialize(limit)
-      @limit = limit
-  end
+	def tour_num
+		loop do
+			puts "how many games do you want to play at a goal? put in a number between 1 and 5"
+			@t = gets.chomp.to_i
+			break if @t.class == Integer && (@t > 1 && @t < 5)
+			puts "The game is only limited to 5 games"
+		end
+		# tournament1 = Tournament.new($t)
+		@t
+	end
 end
 
 
@@ -180,7 +182,7 @@ class AutoBoard < Board
 		puts $slot
 		$display_guide.call
 		$display_slots.call
-    @val += 1
+    $val += 1
   end
 end
  
@@ -242,25 +244,7 @@ def get_details
 end
 get_details
 
-
-# def tournament
-#   puts "Are you playing a tournament? type 'y' for YES or 'n' for NO"
-#   tour = gets.chomp.downcase
-#   if tour == 'y'
-#     loop do
-#       puts "how many games do you want to play at a goal? put in a number between 1 and 5"
-#       $t = gets.chomp.to_i
-# 			break if $t.class == Integer && ($t > 1 && $t < 5)
-# 			puts "The game is only limited to 5 games"
-#     end
-#     tournament1 = Tournament.new($t)
-#     tournament1
-#   else
-#     puts "You can play for as long as you like!!"
-#   end
-# end
-# $tournament = tournament
-
+$tournament = Tournament.new
 
 def player(*opponents)
 	opponents
@@ -272,48 +256,51 @@ puts $player1.letter
 puts $player2.name
 puts $player2.letter
 
+$tictac = Board.new
+$score = Scoreboard.new
+$tictactoe = AutoBoard.new
+
 def runGame(player1, player2)
-  $tictac = Board.new
-	$score = Scoreboard.new
-	$tictactoe = AutoBoard.new
-  # if !$tournament.nil?
-  # end
-  display_score = lambda do
-    puts "Score:"
-    print $score.x_score
-    print "    X"
-    print "     "
-    print $score.o_score
-    print "    O"
-    puts "      "
+	display_score = lambda do
+		puts "Score:"
+		print $score.x_score
+		print "    X"
+		print "     "
+		print $score.o_score
+		print "    O"
+		puts "      "
 	end
-	
+
 	run = Proc.new do |instance, symbol, name|
 		instance.play(symbol, name)
-    win = instance.checkmatch(symbol)
-    display_score.call
-    if win == symbol
-      $score.increment_score(symbol)
-      display_score.call
+		win = instance.checkmatch(symbol)
+		display_score.call
+		if win == symbol
+			$score.increment_score(symbol)
+			display_score.call
 			puts "#{name} you have won!!"
-      return 'y'
+			return 'y'
 		end
 	end
 
 	loop do
 		res = run.call($tictac, player1.letter, player1.name)
-		break if res == 'y'
-		if $tictac.val == 9 || $tictactoe.val == 9
+		break if res == 'y';
+
+		if $val == 9
 			puts "There was no winner"
-			break
+			break;
 		end
+
 		if $players_num == 1
 			res1 = run.call($tictactoe, player2.letter, player2.name)
-			break if res1 == 'y'
+			break if res1 == 'y';
+			puts $val
 		else
 			res2 = run.call($tictac, player2.letter, player2.name)
-			break if res2 == 'y'
+			break if res2 == 'y';
 		end
+
 	end
 
 	# loop do
