@@ -150,7 +150,7 @@ class Tournament
 		loop do
 			puts "how many games do you want to play at a goal? put in a number between 1 and 5"
 			@t = gets.chomp.to_i
-			break if @t.class == Integer && (@t > 1 && @t < 5)
+			break if @t.class == Integer && (@t >= 1 && @t <= 5)
 			puts "The game is only limited to 5 games"
 		end
 		@t
@@ -264,7 +264,7 @@ def runGame(player1, player2)
 		print $score.x_score
 		print "    X"
 		print "     "
-		print $score.o_score
+		print $score.o_scores
 		print "    O"
 		puts "      "
 	end
@@ -276,7 +276,7 @@ def runGame(player1, player2)
 		if win == symbol
 			$score.increment_score(symbol)
 			display_score.call
-			puts "#{name} you have won!!"
+			puts "#{name} you have won last!!"
 			return 'y'
 		end
 	end
