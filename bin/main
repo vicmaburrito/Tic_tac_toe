@@ -186,7 +186,7 @@ end
 
 def init
   puts "Are you ready?"
-  puts "hit p to continue"
+  puts "hit p to continue or 'ctrl c' to stop the game"
   pl = gets.chomp
   while pl.downcase != 'p'
     puts "hit p to continue"
@@ -276,7 +276,7 @@ def runGame(player1, player2)
 		if win == symbol
 			$score.increment_score(symbol)
 			display_score.call
-			puts "#{name} you won last round!!"
+			puts "#{name} you won the last round!!"
 			return 'y'
 		end
 	end
