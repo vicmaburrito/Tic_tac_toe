@@ -142,10 +142,8 @@ class Scoreboard
 		@x_score = 0
     @o_score = 0
   end
-
 end
 
-# class Game; end
 
 class Tournament
 	def tour_num
@@ -299,9 +297,7 @@ def runGame(player1, player2)
 			res2 = run.call($tictac, player2.letter, player2.name)
 			break if res2 == 'y';
 		end
-
 	end
-
 end
 
 i = 0
