@@ -264,7 +264,7 @@ def runGame(player1, player2)
 		print $score.x_score
 		print "    X"
 		print "     "
-		print $score.o_scores
+		print $score.o_score
 		print "    O"
 		puts "      "
 	end
@@ -276,7 +276,7 @@ def runGame(player1, player2)
 		if win == symbol
 			$score.increment_score(symbol)
 			display_score.call
-			puts "#{name} you have won last!!"
+			puts "#{name} you won last round!!"
 			return 'y'
 		end
 	end
@@ -304,6 +304,8 @@ i = 0
 round = 0
 loop do
 	round += 1
+	puts'
+	'
 	puts "Play Round #{round}"
 	runGame(players[0], players[1])
 	$tictac.reset
