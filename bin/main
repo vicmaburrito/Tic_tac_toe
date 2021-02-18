@@ -155,7 +155,6 @@ class Tournament
 			break if @t.class == Integer && (@t > 1 && @t < 5)
 			puts "The game is only limited to 5 games"
 		end
-		# tournament1 = Tournament.new($t)
 		@t
 	end
 end
@@ -217,14 +216,14 @@ def get_details
     loop do
       puts "player1, choose 'X' or 'O'?"
 			$letter1 = gets.chomp.upcase
-			break if $letter1 == 'X' || $letter1 == 'O'
+			break if $letter1 == 'X' || $letter1 == 'O';
 			puts "You cannot choose any other character except 'X' or 'O'"
     end
     $letter2 = $letter1 == 'X' ? 'O' : 'X'
 
     puts "player2, whats your name?"
     name2 = gets.chomp
-    name2 = user2 if name2 == ''
+    name2 = user2 if name2 == '';
     $player1 = Player.new(name1, $letter1)
 		$player2 = Player.new(name2, $letter2)
 		
@@ -232,7 +231,7 @@ def get_details
     loop do
       puts "player1, choose 'X' or 'O'?"
       $letter1 = gets.chomp.upcase
-			break if $letter1 == 'X' || $letter1 == 'O'
+			break if $letter1 == 'X' || $letter1 == 'O';
 			puts "You cannot choose any other character except 'X' or 'O'"
     end
 		$letter2 = $letter1 == 'X' ? 'O' : 'X'
@@ -244,7 +243,8 @@ def get_details
 end
 get_details
 
-$tournament = Tournament.new
+tournament1 = Tournament.new
+$tournament = tournament1.tour_num
 
 def player(*opponents)
 	opponents
@@ -295,7 +295,6 @@ def runGame(player1, player2)
 		if $players_num == 1
 			res1 = run.call($tictactoe, player2.letter, player2.name)
 			break if res1 == 'y';
-			puts $val
 		else
 			res2 = run.call($tictac, player2.letter, player2.name)
 			break if res2 == 'y';
@@ -303,29 +302,18 @@ def runGame(player1, player2)
 
 	end
 
-	# loop do
-	# 	puts "Play Again? type 'y' for YES or 'n' for NO"
-	# 	play_again = gets.chomp.to_i
-	# 	break if play_again == 'y' || play_again == 'n'
-	# end
-	# if play_again == 'y'
-	# 	tictac.reset
-	# 	tictactoe.reset
-	# 	runGame(players[0], players[1])
-	# else
-	# 	puts "Press 'Control C' to start a newgame"
-	# 	return
-	# end
-
 end
 
 i = 0
+round = 0
 loop do
+	round += 1
+	puts "Play Round #{round}"
 	runGame(players[0], players[1])
 	$tictac.reset
 	$tictactoe.reset
 	i+=1
-	break if i == 3
+	break if i == $tournament
 end
 
 
