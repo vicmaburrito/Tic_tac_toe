@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/ModuleLength
+
 puts '
 _______ _          _______             _______
 |__   __(_)        |__   __|           |__   __|
@@ -309,3 +313,6 @@ loop do
   i += 1
   break if i == $tournament
 end
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
