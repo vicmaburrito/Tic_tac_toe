@@ -5,6 +5,10 @@ AllCops:
 
   DisplayCopNames: true
 
+GlobalVars:
+  AllowedVariables:
+    - redis
+
 Layout/LineLength:
   Max: 120
 Metrics/MethodLength:
