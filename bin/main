@@ -254,7 +254,7 @@ $tictac = Board.new
 $score = Scoreboard.new
 $tictactoe = AutoBoard.new
 
-def runGame(player1, player2)
+def run_game(player1, player2)
   display_score = lambda do
     puts 'Score:'
     print $score.x_score
@@ -303,7 +303,7 @@ loop do
   puts '
 	'
   puts "Play Round #{round}"
-  runGame(players[0], players[1])
+  run_game(players[0], players[1])
   $tictac.reset
   $tictactoe.reset
   i += 1
