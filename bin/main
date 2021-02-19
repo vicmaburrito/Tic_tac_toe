@@ -8,14 +8,14 @@ _______ _          _______             _______
    | |  | | (__       | | (_| | (__       | | (_) |  __/
    |_|  |_|\___|      |_|\__,_|\___|      |_|\___/ \___|
 	 '
-	 
+
 puts '
 
 
 '
 puts "What's your name?"
 user = gets.chomp
-user = 'Stranger' if user == '';
+user = 'Stranger' if user == ''
 puts '
 
 
@@ -29,45 +29,43 @@ puts '
 
 # Game instructions
 
-
 class Player
-	attr_reader :name
-	attr_reader :letter
+  attr_reader :name, :letter
 
   def initialize(name, letter)
-		@name = name
-		@letter = letter
+    @name = name
+    @letter = letter
   end
 
-	def self.pick_slot
+  def self.pick_slot
     loop do
       board = Board.squares.select { |_key, value| value == '-' }
       arr1 = []
-			board.each { |k, _v|  arr1 << k }
-			$display_guide.call
+      board.each { |k, _v| arr1 << k }
+      $display_guide.call
       puts "#{@name} Choose a random number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
-      break if board[@slot] == '-';
+      break if board[@slot] == '-'
     end
     @slot
-	end
+  end
 end
 
-
 class Board
-	$display_guide = Proc.new do 
-		puts "
+  $display_guide = proc do
+    puts "
     "
-		puts "1 | 2 | 3"
-		puts '---------'
-		puts "4 | 5 | 6"
-		puts '---------'
-		puts "7 | 8 | 9"
-		puts "
+    puts '1 | 2 | 3'
+    puts '---------'
+    puts '4 | 5 | 6'
+    puts '---------'
+    puts '7 | 8 | 9'
+    puts "
     "
-	end
-	$val = 0
+  end
+  $val = 0
   attr_reader :val
+
   @@squares = {
     1 => '-',
     2 => '-',
@@ -78,45 +76,43 @@ class Board
     7 => '-',
     8 => '-',
     9 => '-'
-	}
+  }
 
-	$display_slots = Proc.new do
-		puts "#{@@squares[1]}  #{@@squares[2]}  #{@@squares[3]}"
-		puts "#{@@squares[4]}  #{@@squares[5]}  #{@@squares[6]}"
-		puts "#{@@squares[7]}  #{@@squares[8]}  #{@@squares[9]}"
-		puts "
+  $display_slots = proc do
+    puts "#{@@squares[1]}  #{@@squares[2]}  #{@@squares[3]}"
+    puts "#{@@squares[4]}  #{@@squares[5]}  #{@@squares[6]}"
+    puts "#{@@squares[7]}  #{@@squares[8]}  #{@@squares[9]}"
+    puts "
     "
-	end
+  end
 
-  def play(character, name)
+  def play(character, _name)
     @@squares[Player.pick_slot] = character
-		$display_guide.call
-		$display_slots.call
+    $display_guide.call
+    $display_slots.call
     $val += 1
   end
 
   def reset
-		@@squares = {
-			1 => '-',
-			2 => '-',
-			3 => '-',
-			4 => '-',
-			5 => '-',
-			6 => '-',
-			7 => '-',
-			8 => '-',
-			9 => '-'
-		}
-		$val = 0
+    @@squares = {
+      1 => '-',
+      2 => '-',
+      3 => '-',
+      4 => '-',
+      5 => '-',
+      6 => '-',
+      7 => '-',
+      8 => '-',
+      9 => '-'
+    }
+    $val = 0
   end
 
-	def checkmatch(char)
-		win_combinations = [[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]]
-		for nums in win_combinations do
-			if @@squares[nums[0]] == char && @@squares[nums[1]] == char && @@squares[nums[2]] == char
-				return char
-			end
-		end
+  def checkmatch(char)
+    win_combinations = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
+    win_combinations.each do |nums|
+      return char if @@squares[nums[0]] == char && @@squares[nums[1]] == char && @@squares[nums[2]] == char
+    end
   end
 
   def self.squares
@@ -125,8 +121,7 @@ class Board
 end
 
 class Scoreboard
-  attr_reader :x_score
-  attr_reader :o_score
+  attr_reader :x_score, :o_score
 
   def initialize
     @x_score = 0
@@ -136,67 +131,65 @@ class Scoreboard
   def increment_score(char)
     @x_score += 1 if char == 'X'
     @o_score += 1 if char == 'O'
-	end
-	
-	def self.reset
-		@x_score = 0
+  end
+
+  def self.reset
+    @x_score = 0
     @o_score = 0
   end
 end
 
-
 class Tournament
-	def tour_num
-		loop do
-			puts "how many games do you want to play at a goal? put in a number between 1 and 5"
-			@t = gets.chomp.to_i
-			break if @t.class == Integer && (@t >= 1 && @t <= 5)
-			puts "The game is only limited to 5 games"
-		end
-		@t
-	end
+  def tour_num
+    loop do
+      puts 'how many games do you want to play at a goal? put in a number between 1 and 5'
+      @t = gets.chomp.to_i
+      break if @t.instance_of?(Integer) && (@t >= 1 && @t <= 5)
+
+      puts 'The game is only limited to 5 games'
+    end
+    @t
+  end
 end
 
-
 class AutoPlayer < Player
-	def self.pick_slot
-		board = Board.squares.select { |_key, value| value == '-' }
-		arr1 = []
-		board.each { |k, v| arr1 << k }
-		$display_guide.call
-		puts "its my turn to choose a random number from #{arr1}"
-		loop do
-			$slot = arr1.sample
-			break if board[$slot] == '-';
-		end
-		$slot
-	end
+  def self.pick_slot
+    board = Board.squares.select { |_key, value| value == '-' }
+    arr1 = []
+    board.each { |k, _v| arr1 << k }
+    $display_guide.call
+    puts "its my turn to choose a random number from #{arr1}"
+    loop do
+      $slot = arr1.sample
+      break if board[$slot] == '-'
+    end
+    $slot
+  end
 end
 
 class AutoBoard < Board
-	def play(character, name)
-		@@squares[AutoPlayer.pick_slot] = character
-		puts $slot
-		$display_guide.call
-		$display_slots.call
+  def play(character, _name)
+    @@squares[AutoPlayer.pick_slot] = character
+    puts $slot
+    $display_guide.call
+    $display_slots.call
     $val += 1
   end
 end
- 
 
 def init
-  puts "Are you ready?"
+  puts 'Are you ready?'
   puts "hit p to continue or 'ctrl c' to stop the game"
   pl = gets.chomp
   while pl.downcase != 'p'
-    puts "hit p to continue"
+    puts 'hit p to continue'
     pl = gets.chomp
   end
-  puts "How many players?"
+  puts 'How many players?'
   no_of_players = gets.chomp.to_i
   while no_of_players > 2 || no_of_players < 1
-    puts "you can only have 1 or 2 players"
-    puts "How many players?"
+    puts 'you can only have 1 or 2 players'
+    puts 'How many players?'
     no_of_players = gets.chomp.to_i
   end
   no_of_players
@@ -205,39 +198,42 @@ end
 $players_num = init
 
 def get_details
-  puts "player1, whats your name?"
+  puts 'player1, whats your name?'
   name1 = gets.chomp
   name1 = 'user1' if name1 == ''
   $letter2 = nil
 
-  if $players_num == 2
-    loop do
-      puts "player1, choose 'X' or 'O'?"
-			$letter1 = gets.chomp.upcase
-			break if $letter1 == 'X' || $letter1 == 'O';
-			puts "You cannot choose any other character except 'X' or 'O'"
-    end
-    $letter2 = $letter1 == 'X' ? 'O' : 'X'
-
-    puts "player2, whats your name?"
-    name2 = gets.chomp
-    name2 = user2 if name2 == '';
-    $player1 = Player.new(name1, $letter1)
-		$player2 = Player.new(name2, $letter2)
-		
-	elsif $players_num == 1
+  case $players_num
+  when 2
     loop do
       puts "player1, choose 'X' or 'O'?"
       $letter1 = gets.chomp.upcase
-			break if $letter1 == 'X' || $letter1 == 'O';
-			puts "You cannot choose any other character except 'X' or 'O'"
+      break if $letter1 == 'X' || $letter1 == 'O'
+
+      puts "You cannot choose any other character except 'X' or 'O'"
     end
-		$letter2 = $letter1 == 'X' ? 'O' : 'X'
-		
-		name2 = ['Ruby', 'Micheal', 'John Doe'].sample
+    $letter2 = $letter1 == 'X' ? 'O' : 'X'
+
+    puts 'player2, whats your name?'
+    name2 = gets.chomp
+    name2 = user2 if name2 == ''
+    $player1 = Player.new(name1, $letter1)
+    $player2 = Player.new(name2, $letter2)
+
+  when 1
+    loop do
+      puts "player1, choose 'X' or 'O'?"
+      $letter1 = gets.chomp.upcase
+      break if $letter1 == 'X' || $letter1 == 'O'
+
+      puts "You cannot choose any other character except 'X' or 'O'"
+    end
+    $letter2 = $letter1 == 'X' ? 'O' : 'X'
+
+    name2 = ['Ruby', 'Micheal', 'John Doe'].sample
     $player1 = Player.new(name1, $letter1)
     $player2 = AutoPlayer.new(name2, $letter2)
-	end
+  end
 end
 get_details
 
@@ -245,7 +241,7 @@ tournament1 = Tournament.new
 $tournament = tournament1.tour_num
 
 def player(*opponents)
-	opponents
+  opponents
 end
 players = player($player1, $player2)
 
@@ -259,59 +255,57 @@ $score = Scoreboard.new
 $tictactoe = AutoBoard.new
 
 def runGame(player1, player2)
-	display_score = lambda do
-		puts "Score:"
-		print $score.x_score
-		print "    X"
-		print "     "
-		print $score.o_score
-		print "    O"
-		puts "      "
-	end
+  display_score = lambda do
+    puts 'Score:'
+    print $score.x_score
+    print '    X'
+    print '     '
+    print $score.o_score
+    print '    O'
+    puts '      '
+  end
 
-	run = Proc.new do |instance, symbol, name|
-		instance.play(symbol, name)
-		win = instance.checkmatch(symbol)
-		display_score.call
-		if win == symbol
-			$score.increment_score(symbol)
-			display_score.call
-			puts "#{name} you won the last round!!"
-			return 'y'
-		end
-	end
+  run = proc do |instance, symbol, name|
+    instance.play(symbol, name)
+    win = instance.checkmatch(symbol)
+    display_score.call
+    if win == symbol
+      $score.increment_score(symbol)
+      display_score.call
+      puts "#{name} you won the last round!!"
+      return 'y'
+    end
+  end
 
-	loop do
-		res = run.call($tictac, player1.letter, player1.name)
-		break if res == 'y';
+  loop do
+    res = run.call($tictac, player1.letter, player1.name)
+    break if res == 'y'
 
-		if $val == 9
-			puts "There was no winner"
-			break;
-		end
+    if $val == 9
+      puts 'There was no winner for this round'
+      break
+    end
 
-		if $players_num == 1
-			res1 = run.call($tictactoe, player2.letter, player2.name)
-			break if res1 == 'y';
-		else
-			res2 = run.call($tictac, player2.letter, player2.name)
-			break if res2 == 'y';
-		end
-	end
+    if $players_num == 1
+      res1 = run.call($tictactoe, player2.letter, player2.name)
+      break if res1 == 'y'
+    else
+      res2 = run.call($tictac, player2.letter, player2.name)
+      break if res2 == 'y'
+    end
+  end
 end
 
 i = 0
 round = 0
 loop do
-	round += 1
-	puts'
+  round += 1
+  puts '
 	'
-	puts "Play Round #{round}"
-	runGame(players[0], players[1])
-	$tictac.reset
-	$tictactoe.reset
-	i+=1
-	break if i == $tournament
+  puts "Play Round #{round}"
+  runGame(players[0], players[1])
+  $tictac.reset
+  $tictactoe.reset
+  i += 1
+  break if i == $tournament
 end
-
-
