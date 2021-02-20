@@ -5,9 +5,9 @@ AllCops:
 
   DisplayCopNames: true
 
-GlobalVars:
-  AllowedVariables:
-    - $redis
+  # GlobalVars:
+  #   AllowedVariables:
+  #     - $redis
 
 Layout/LineLength:
   Max: 120
