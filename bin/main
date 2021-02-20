@@ -97,7 +97,7 @@ class Player
       arr1 = []
       board.each { |k, _v| arr1 << k }
       display_guide
-      puts "#{@name} choose a random number from #{arr1} that represents each slot"
+      puts "#{@name} choose a number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
       break if board[@slot] == '-'
     end
@@ -151,7 +151,7 @@ class AutoPlayer < Player
     arr1 = []
     board.each { |k, _v| arr1 << k }
     display_guide
-    puts "its my turn to choose a random number from #{arr1}"
+    puts "its #{@name} turn to choose a number from #{arr1}"
     loop do
       @slot = arr1.sample
       break if board[@slot] == '-'
