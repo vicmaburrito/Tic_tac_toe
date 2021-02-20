@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# rubocop:disable Style/ClassVars
 
 puts '
 _______ _          _______             _______
@@ -29,7 +30,23 @@ puts '
 
 # Game instructions
 
+module Display
+	def display_guide
+		puts "
+		"
+		puts '1 | 2 | 3'
+		puts '---------'
+		puts '4 | 5 | 6'
+		puts '---------'
+		puts '7 | 8 | 9'
+		puts "
+		"
+	end
+end
+
+
 class Player
+	include Display
   attr_reader :name, :letter
 
   def initialize(name, letter)
@@ -37,13 +54,15 @@ class Player
     @letter = letter
   end
 
-  def self.pick_slot
+	def pick_slot
+		# puts Board.squares
     loop do
-      board = Board.squares.select { |_key, value| value == '-' }
+			board = Board.squares.select { |_key, value| value == '-' }
+			# board = board_squares.squares.select { |_key, value| value == '-' }
       arr1 = []
       board.each { |k, _v| arr1 << k }
-      $display_guide.call
-      puts "#{@name} Choose a random number from #{arr1} that represents each slot"
+      display_guide
+      puts "#{@name} choose a random number from #{arr1} that represents each slot"
       @slot = gets.chomp.to_i
       break if board[@slot] == '-'
     end
@@ -52,49 +71,36 @@ class Player
 end
 
 class Board
-  $display_guide = proc do
-    puts "
-    "
-    puts '1 | 2 | 3'
-    puts '---------'
-    puts '4 | 5 | 6'
-    puts '---------'
-    puts '7 | 8 | 9'
-    puts "
-    "
-  end
+	include Display
+
   $val = 0
-  attr_reader :val
-
-  @@squares = {
-    1 => '-',
-    2 => '-',
-    3 => '-',
-    4 => '-',
-    5 => '-',
-    6 => '-',
-    7 => '-',
-    8 => '-',
-    9 => '-'
-  }
-
-  $display_slots = proc do
-    puts "#{@@squares[1]}  #{@@squares[2]}  #{@@squares[3]}"
-    puts "#{@@squares[4]}  #{@@squares[5]}  #{@@squares[6]}"
-    puts "#{@@squares[7]}  #{@@squares[8]}  #{@@squares[9]}"
-    puts "
-    "
-  end
-
-  def play(character, _name)
-    @@squares[Player.pick_slot] = character
-    $display_guide.call
-    $display_slots.call
+	attr_accessor :val
+	attr_reader :squares
+	# def initialize
+	@@squares = {
+		1 => '-',
+		2 => '-',
+		3 => '-',
+		4 => '-',
+		5 => '-',
+		6 => '-',
+		7 => '-',
+		8 => '-',
+		9 => '-'
+	}
+	# end
+	
+	def play(board_slot, character)
+		puts Board.squares
+		Board.squares[board_slot] = character
+		puts Board.squares
+    display_guide
+    display_slots
     $val += 1
   end
 
   def reset
-    @@squares = {
+    @squares = {
       1 => '-',
       2 => '-',
       3 => '-',
@@ -111,13 +117,38 @@ class Board
   def checkmatch(char)
     win_combinations = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
     win_combinations.each do |nums|
-      return char if @@squares[nums[0]] == char && @@squares[nums[1]] == char && @@squares[nums[2]] == char
+      return char if Board.squares[nums[0]] == char && Board.squares[nums[1]] == char && Board.squares[nums[2]] == char
     end
-  end
+	end
+	
+	# def checkmatch(char)
+  #   win_combinations = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
+  #   win_combinations.each do |nums|
+  #     return char if $squares[nums[0]] == char && $squares[nums[1]] == char && $squares[nums[2]] == char
+  #   end
+  # end
+
 
   def self.squares
-    @@squares
-  end
+		@@squares
+	end
+
+	def display_slots
+    puts "#{Board.squares[1]}  #{Board.squares[2]}  #{Board.squares[3]}"
+    puts "#{Board.squares[4]}  #{Board.squares[5]}  #{Board.squares[6]}"
+    puts "#{Board.squares[7]}  #{Board.squares[8]}  #{Board.squares[9]}"
+    puts "
+    "
+	end
+
+	# def display_slots
+  #   puts "#{@squares[1]}  #{@squares[2]}  #{@squares[3]}"
+  #   puts "#{@squares[4]}  #{@squares[5]}  #{@squares[6]}"
+  #   puts "#{@squares[7]}  #{@squares[8]}  #{@squares[9]}"
+  #   puts "
+  #   "
+	# end
+
 end
 
 class Scoreboard
@@ -131,11 +162,6 @@ class Scoreboard
   def increment_score(char)
     @x_score += 1 if char == 'X'
     @o_score += 1 if char == 'O'
-  end
-
-  def self.reset
-    @x_score = 0
-    @o_score = 0
   end
 end
 
@@ -153,29 +179,22 @@ class Tournament
 end
 
 class AutoPlayer < Player
-  def self.pick_slot
+  def pick_slot
     board = Board.squares.select { |_key, value| value == '-' }
     arr1 = []
     board.each { |k, _v| arr1 << k }
-    $display_guide.call
+    display_guide
     puts "its my turn to choose a random number from #{arr1}"
     loop do
-      $slot = arr1.sample
-      break if board[$slot] == '-'
+      @slot = arr1.sample
+      break if board[@slot] == '-'
     end
-    $slot
+    @slot
   end
 end
 
-class AutoBoard < Board
-  def play(character, _name)
-    @@squares[AutoPlayer.pick_slot] = character
-    puts $slot
-    $display_guide.call
-    $display_slots.call
-    $val += 1
-  end
-end
+class AutoBoard < Board; end
+
 
 def init
   puts 'Are you ready?'
@@ -196,6 +215,12 @@ def init
 end
 
 $players_num = init
+
+
+
+
+
+
 
 def get_details
   puts 'player1, whats your name?'
@@ -237,8 +262,16 @@ def get_details
 end
 get_details
 
+
+
+
 tournament1 = Tournament.new
 $tournament = tournament1.tour_num
+
+
+
+
+
 
 def player(*opponents)
   opponents
@@ -254,6 +287,11 @@ $tictac = Board.new
 $score = Scoreboard.new
 $tictactoe = AutoBoard.new
 
+
+
+
+
+
 def run_game(player1, player2)
   display_score = lambda do
     puts 'Score:'
@@ -265,8 +303,11 @@ def run_game(player1, player2)
     puts '      '
   end
 
-  run = proc do |instance, symbol, name|
-    instance.play(symbol, name)
+	run = proc do |instance, symbol, name, current_player|
+		slot1 = current_player.pick_slot
+		puts slot1
+		puts symbol
+    instance.play(slot1, symbol)
     win = instance.checkmatch(symbol)
     display_score.call
     if win == symbol
@@ -278,7 +319,7 @@ def run_game(player1, player2)
   end
 
   loop do
-    res = run.call($tictac, player1.letter, player1.name)
+    res = run.call($tictac, player1.letter, player1.name, player1)
     break if res == 'y'
 
     if $val == 9
@@ -287,10 +328,10 @@ def run_game(player1, player2)
     end
 
     if $players_num == 1
-      res1 = run.call($tictactoe, player2.letter, player2.name)
+      res1 = run.call($tictactoe, player2.letter, player2.name, player2)
       break if res1 == 'y'
     else
-      res2 = run.call($tictac, player2.letter, player2.name)
+      res2 = run.call($tictac, player2.letter, player2.name, player2)
       break if res2 == 'y'
     end
   end
@@ -309,3 +350,6 @@ loop do
   i += 1
   break if i == $tournament
 end
+
+
+# rubocop:enable Style/ClassVars
