@@ -1,23 +1,5 @@
 # rubocop:disable Style/ClassVars
 
-module Methods
-  def display_guide
-    puts "
-		"
-    puts '1 | 2 | 3'
-    puts '---------'
-    puts '4 | 5 | 6'
-    puts '---------'
-    puts '7 | 8 | 9'
-    puts "
-		"
-  end
-
-  def choose(name0, arr0)
-    puts "its #{name0}'s turn to choose a number from #{arr0}"
-  end
-end
-
 class Board
   @@squares = {
     1 => '-',
@@ -51,7 +33,6 @@ class Board
 end
 
 class Player
-  include Methods
   attr_reader :name, :letter
 
   def initialize(name, letter)
@@ -66,16 +47,15 @@ class Player
       board.each { |k, _v| arr1 << k }
       display_guide
       choose(@name, arr1)
-      @slot = gets.chomp.to_i
-      break if board[@slot] == '-'
+      @slot = input
+			break if board[@slot] == '-'
+			warn
     end
     @slot
   end
 end
 
 class Game
-  include Methods
-
   def play(board_slot, character)
     Board.squares[board_slot] = character
     display_guide
@@ -87,14 +67,6 @@ class Game
     win_combinations.each do |nums|
       return char if Board.squares[nums[0]] == char && Board.squares[nums[1]] == char && Board.squares[nums[2]] == char
     end
-  end
-
-  def display_slots
-    puts "#{Board.squares[1]}  #{Board.squares[2]}  #{Board.squares[3]}"
-    puts "#{Board.squares[4]}  #{Board.squares[5]}  #{Board.squares[6]}"
-    puts "#{Board.squares[7]}  #{Board.squares[8]}  #{Board.squares[9]}"
-    puts "
-    "
   end
 end
 
