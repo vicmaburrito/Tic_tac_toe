@@ -347,18 +347,14 @@ loop do
   i += 1
 	if i == @tournament
 		if @tournament >= 2
-			# winner1 = nil
 			if @score.x_score > @score.o_score && @winner_symbol == 'X'
 				puts "#{@winner}, you won the tournament!!!"
-
 			elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
-				puts "You #{@winner} you won the tournament!!!"
-
+				puts	"You #{@winner}, you won the tournament!!!"
 			else 
 				puts "No one won the tournament!!!"
 			end
 		end
-		# winner1 == @score.x_score ? 
 		break
 	end
 end
@@ -368,22 +364,3 @@ end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Style/ClassVars
-
-# @winner = name
-# @winner_symbol = symbol
-
-# display_score = lambda do
-# 	puts 'Score:'
-# 	print @score.x_score
-# 	print '    X'
-# 	print '     '
-# 	print @score.o_score
-# 	print '    O'
-# 	puts '      '
-# end
-
-
-# puts @player1.name
-# puts @player1.letter
-# puts @player2.name
-# puts @player2.letter
