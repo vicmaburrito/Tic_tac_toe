@@ -3,7 +3,7 @@
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
-require_relative '../lib/tic_tac_toe'
+require_relative '../lib/tic_tac_toe.rb'
 
 puts '
 _______ _          _______             _______
