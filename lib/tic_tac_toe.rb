@@ -48,8 +48,9 @@ class Player
       display_guide
       choose(@name, arr1)
       @slot = input
-			break if board[@slot] == '-'
-			warn
+      break if board[@slot] == '-'
+
+      warn
     end
     @slot
   end
