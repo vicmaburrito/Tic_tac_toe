@@ -65,7 +65,7 @@ def input
 end
 
 def warn
-	puts "Thats the wrong move!"
+  puts 'Thats the wrong move!'
 end
 
 def init
@@ -123,7 +123,7 @@ def details
 
     @letter2 = @letter1 == 'X' ? 'O' : 'X'
 
-    name2 = ['Ruby', 'Doe', 'Wolverine', 'Voltron', 'Nairobi', 'Professor'].sample
+    name2 = %w[Ruby Doe Wolverine Voltron Nairobi Professor].sample
     @player1 = Player.new(name1, @letter1)
     @player2 = AutoPlayer.new(name2, @letter2)
   end
