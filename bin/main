@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
-# rubocop:disable Style/ClassVars
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
-require_relative '../lib/tic_tac_toe.rb'
+require_relative '../lib/tic_tac_toe'
 
 puts '
 _______ _          _______             _______
@@ -143,7 +142,7 @@ def run_game(player1, player2)
     puts "You can onlytype 1 or 2 respectively for #{player1.name} or #{player2.name}"
   end
 
-	run = proc do |instance, symbol, name, current_player|
+  run = proc do |instance, symbol, name, current_player|
     slot1 = current_player.pick_slot
     instance.play(slot1, symbol)
     win = instance.checkmatch(symbol)
@@ -151,9 +150,9 @@ def run_game(player1, player2)
     @val += 1
     if win == symbol
       @score.increment_score(symbol)
-			display_score.call
-			@winner = name
-			@winner_symbol = symbol
+      display_score.call
+      @winner = name
+      @winner_symbol = symbol
       puts "#{name} you won the last round!!"
       return 'y'
     end
@@ -209,22 +208,21 @@ loop do
   Board.reset
   @val = 0
   i += 1
-	if i == @tournament
-		if @tournament >= 2
-			if @score.x_score > @score.o_score && @winner_symbol == 'X'
-				puts "#{@winner}, you won the tournament!!!"
-			elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
-				puts	"You #{@winner}, you won the tournament!!!"
-			else 
-				puts "No one won the tournament!!!"
-			end
-		end
-		break
-	end
+  next unless i == @tournament
+
+  if @tournament >= 2
+    if @score.x_score > @score.o_score && @winner_symbol == 'X'
+      puts "#{@winner}, you won the tournament!!!"
+    elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
+      puts	"You #{@winner}, you won the tournament!!!"
+    else
+      puts 'No one won the tournament!!!'
+    end
+  end
+  break
 end
 
 # rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
-# rubocop:enable Style/ClassVars
