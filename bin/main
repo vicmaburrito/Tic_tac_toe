@@ -36,7 +36,7 @@ puts '
 
 @val = 0
 
-module Display
+module Methods
   def display_guide
     puts "
 		"
@@ -47,8 +47,13 @@ module Display
     puts '7 | 8 | 9'
     puts "
 		"
-  end
+	end
+	
+	def choose(name0, arr0)
+		puts "its #{name0}'s turn to choose a number from #{arr0}"
+	end
 end
+# @name arr1
 
 class Board
   @@squares = {
@@ -82,8 +87,9 @@ class Board
   end
 end
 
+
 class Player
-  include Display
+  include Methods
   attr_reader :name, :letter
 
   def initialize(name, letter)
@@ -97,7 +103,8 @@ class Player
       arr1 = []
       board.each { |k, _v| arr1 << k }
       display_guide
-      puts "#{@name} choose a number from #{arr1} that represents each slot"
+			# puts "#{@name} choose a number from #{arr1} that represents each slot"
+			choose(@name, arr1)
       @slot = gets.chomp.to_i
       break if board[@slot] == '-'
     end
@@ -105,9 +112,9 @@ class Player
   end
 end
 
+
 class Game
-  include Display
-  attr_accessor :val
+  include Methods
 
   def play(board_slot, character)
     Board.squares[board_slot] = character
@@ -151,7 +158,8 @@ class AutoPlayer < Player
     arr1 = []
     board.each { |k, _v| arr1 << k }
     display_guide
-    puts "its #{@name} turn to choose a number from #{arr1}"
+		# puts "its #{@name} turn to choose a number from #{arr1}"
+		choose(@name, arr1)
     loop do
       @slot = arr1.sample
       break if board[@slot] == '-'
@@ -163,6 +171,7 @@ end
 class AutoGame < Game; end
 
 #------------------------------------------------------------
+
 
 def init
   puts 'Are you ready?'
@@ -270,16 +279,17 @@ def run_game(player1, player2)
     puts "You can onlytype 1 or 2 respectively for #{player1.name} or #{player2.name}"
   end
 
-  run = proc do |instance, symbol, name, current_player|
+	run = proc do |instance, symbol, name, current_player|
     slot1 = current_player.pick_slot
     instance.play(slot1, symbol)
     win = instance.checkmatch(symbol)
     display_score.call
     @val += 1
-    puts @val
     if win == symbol
       @score.increment_score(symbol)
-      display_score.call
+			display_score.call
+			@winner = name
+			@winner_symbol = symbol
       puts "#{name} you won the last round!!"
       return 'y'
     end
@@ -335,7 +345,22 @@ loop do
   Board.reset
   @val = 0
   i += 1
-  break if i == @tournament
+	if i == @tournament
+		if @tournament >= 2
+			# winner1 = nil
+			if @score.x_score > @score.o_score && @winner_symbol == 'X'
+				puts "#{@winner}, you won the tournament!!!"
+
+			elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
+				puts "You #{@winner} you won the tournament!!!"
+
+			else 
+				puts "No one won the tournament!!!"
+			end
+		end
+		# winner1 == @score.x_score ? 
+		break
+	end
 end
 
 # rubocop:enable Metrics/AbcSize
@@ -343,3 +368,22 @@ end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Style/ClassVars
+
+# @winner = name
+# @winner_symbol = symbol
+
+# display_score = lambda do
+# 	puts 'Score:'
+# 	print @score.x_score
+# 	print '    X'
+# 	print '     '
+# 	print @score.o_score
+# 	print '    O'
+# 	puts '      '
+# end
+
+
+# puts @player1.name
+# puts @player1.letter
+# puts @player2.name
+# puts @player2.letter
