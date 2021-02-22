@@ -3,7 +3,7 @@
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
-require_relative '../lib/tic_tac_toe.rb'
+require_relative '../lib/tic_tac_toe'
 
 puts '
 _______ _          _______             _______
@@ -35,6 +35,38 @@ puts '
 # Game instructions
 
 @val = 0
+
+def display_guide
+  puts "
+	"
+  puts '1 | 2 | 3'
+  puts '---------'
+  puts '4 | 5 | 6'
+  puts '---------'
+  puts '7 | 8 | 9'
+  puts "
+	"
+end
+
+def choose(name0, arr0)
+  puts "its #{name0}'s turn to choose a board slot number from #{arr0}"
+end
+
+def display_slots
+  puts "#{Board.squares[1]}  #{Board.squares[2]}  #{Board.squares[3]}"
+  puts "#{Board.squares[4]}  #{Board.squares[5]}  #{Board.squares[6]}"
+  puts "#{Board.squares[7]}  #{Board.squares[8]}  #{Board.squares[9]}"
+  puts "
+	"
+end
+
+def input
+  gets.chomp.to_i
+end
+
+def warn
+	puts "Thats the wrong move!"
+end
 
 def init
   puts 'Are you ready?'
@@ -91,7 +123,7 @@ def details
 
     @letter2 = @letter1 == 'X' ? 'O' : 'X'
 
-    name2 = ['Ruby', 'Micheal', 'John Doe'].sample
+    name2 = ['Ruby', 'Doe', 'Wolverine', 'Voltron', 'Nairobi', 'Professor'].sample
     @player1 = Player.new(name1, @letter1)
     @player2 = AutoPlayer.new(name2, @letter2)
   end
@@ -139,7 +171,7 @@ def run_game(player1, player2)
     @starter = gets.chomp.to_i
     break if @starter == 1 || @starter == 2
 
-    puts "You can onlytype 1 or 2 respectively for #{player1.name} or #{player2.name}"
+    puts "You can only type 1 or 2 respectively for #{player1.name} or #{player2.name}"
   end
 
   run = proc do |instance, symbol, name, current_player|
@@ -153,7 +185,7 @@ def run_game(player1, player2)
       display_score.call
       @winner = name
       @winner_symbol = symbol
-      puts "#{name} you won the last round!!"
+      puts "#{name}, you won the last round!!"
       return 'y'
     end
   end
@@ -212,11 +244,11 @@ loop do
 
   if @tournament >= 2
     if @score.x_score > @score.o_score && @winner_symbol == 'X'
-      puts "#{@winner}, you won the tournament!!!"
+      puts "Congrats #{@winner}, you won the tournament!!!"
     elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
-      puts "You #{@winner}, you won the tournament!!!"
+      puts "Congrats #{@winner}, you won the tournament!!!"
     else
-      puts 'No one won the tournament!!!'
+      puts 'No winner for the tournament, it ia a draw!!!'
     end
   end
   break
