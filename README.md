@@ -19,7 +19,6 @@
 
 - Ruby
 
-
 ## Rules
 
 - 3 x 3 grid as board
