@@ -13,8 +13,7 @@
 
 - clone the repository `$ git clone https://github.com/vicmaburrito/tic_tac_toe`
 - open the downloaded repository with vscode.
-- switch to game_logic branch in the terminal `$ git checkout game_logic`
-- Run the command `$ ruby main.rb`
+- Run the command `$ ruby main`
 
 ## Built With
 
@@ -40,7 +39,6 @@
 - Starts the game! 
 - At the end of the selected games, they will say who is the winner or if it is a draw
 
->>>>>>> 065de61... Added Rules of the game
 ## Live Demo
 
 [Live Demo Link](https://repl.it/@CodeVantage/OOP#main.rb)
