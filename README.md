@@ -13,7 +13,7 @@
 
 - clone the repository `$ git clone https://github.com/vicmaburrito/tic_tac_toe`
 - open the downloaded repository with vscode.
-- Run the command `$ ruby main`
+- Run the command `$ cd bin` and after that run `$ ruby main`
 
 ## Built With
 
