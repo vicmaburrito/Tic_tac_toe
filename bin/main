@@ -248,7 +248,7 @@ loop do
     elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
       puts "Congrats #{@winner}, you won the tournament!!!"
     else
-      puts 'No winner for the tournament, it ia a draw!!!'
+      puts 'No winner for the tournament, it is a draw!!!'
     end
   end
   break
