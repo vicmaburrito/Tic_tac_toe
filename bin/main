@@ -68,6 +68,19 @@ def warn
   puts 'Thats the wrong move!'
 end
 
+def display_players
+  puts "
+
+	"
+  print "player 1: #{@player1.name}, letter: #{@player1.letter}"
+  puts "
+	"
+  puts "player 2: #{@player2.name}, letter: #{@player2.letter}"
+  puts "
+
+	"
+end
+
 def init
   puts 'Are you ready?'
   puts "hit p to continue or 'ctrl c' to stop the game"
@@ -146,10 +159,7 @@ end
 
 @tournament = tour_num
 
-puts @player1.name
-puts @player1.letter
-puts @player2.name
-puts @player2.letter
+display_players
 
 @tictac = Game.new
 @score = Scoreboard.new
@@ -183,8 +193,8 @@ def run_game(player1, player2)
     if win == symbol
       @score.increment_score(symbol)
       display_score.call
-      @winner = name
-      @winner_symbol = symbol
+      # @winner = name
+      # @winner_symbol = symbol
       puts "#{name}, you won the last round!!"
       return 'y'
     end
@@ -243,14 +253,19 @@ loop do
   next unless i == @tournament
 
   if @tournament >= 2
-    if @score.x_score > @score.o_score && @winner_symbol == 'X'
-      puts "Congrats #{@winner}, you won the tournament!!!"
-    elsif @score.x_score < @score.o_score && @winner_symbol == 'O'
-      puts "Congrats #{@winner}, you won the tournament!!!"
+    if @score.x_score > @score.o_score && @player1.letter == 'X'
+      puts "Congrats #{@player1.name}, you won the tournament!!!"
+    elsif @score.x_score < @score.o_score && @player1.letter == 'O'
+      puts "Congrats #{@player1.name}, you won the tournament!!!"
+    elsif @score.x_score > @score.o_score && @player2.letter == 'X'
+      puts "Congrats #{@player2.name}, you won the tournament!!!"
+    elsif @score.x_score < @score.o_score && @player2.letter == 'O'
+      puts "Congrats #{@player2.name}, you won the tournament!!!"
     else
       puts 'No winner for the tournament, it is a draw!!!'
     end
   end
+  display_players
   break
 end
 
