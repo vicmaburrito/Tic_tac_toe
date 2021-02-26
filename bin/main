@@ -107,7 +107,7 @@ def details
 
     puts 'player2, whats your name?'
     name2 = gets.chomp
-    name2 = user2 if name2 == ''
+    name2 = 'user2' if name2 == ''
     @player1 = Player.new(name1, @letter1)
     @player2 = Player.new(name2, @letter2)
 
@@ -131,6 +131,8 @@ def details
   [@player1, @player2]
 end
 
+players = details
+
 def tour_num
   loop do
     puts 'how many games do you want to play at a goal? put in a number between 1 and 6'
@@ -143,8 +145,6 @@ def tour_num
 end
 
 @tournament = tour_num
-
-players = details
 
 puts @player1.name
 puts @player1.letter
