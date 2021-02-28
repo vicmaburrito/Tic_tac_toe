@@ -32,8 +32,6 @@ puts '
 
 '
 
-# Game instructions
-
 @val = 0
 
 def display_guide
@@ -193,8 +191,6 @@ def run_game(player1, player2)
     if win == symbol
       @score.increment_score(symbol)
       display_score.call
-      # @winner = name
-      # @winner_symbol = symbol
       puts "#{name}, you won the last round!!"
       return 'y'
     end
@@ -206,7 +202,10 @@ def run_game(player1, player2)
       break if res == 'y'
 
       if @val == 9
-        puts 'There was no winner for this round'
+        @score.increment_score(player1.letter)
+        @score.increment_score(player2.letter)
+        display_score.call
+        puts 'There was no winner for this round, you both have 1 point each'
         break
       end
 
@@ -229,7 +228,10 @@ def run_game(player1, player2)
       end
 
       if @val == 9
-        puts 'There was no winner for this round'
+        @score.increment_score(player1.letter)
+        @score.increment_score(player2.letter)
+        display_score.call
+        puts 'There was no winner for this round, you both have 1 point each'
         break
       end
 
