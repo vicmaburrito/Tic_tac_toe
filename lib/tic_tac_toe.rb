@@ -3,7 +3,7 @@
 class Board
   @@num_start = 1
   @@num_end = 9
-  @@board_slot_sign = "-"
+  @@board_slot_sign = '-'
   @@board_range = (@@num_start..@@num_end).to_a
   @@squares = {}
 
