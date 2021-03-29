@@ -1,5 +1,7 @@
 # tic_tac_toe
 
+![screenshot](img/interface_game.jpg)
+
 > In this project, the Tic Tac Toe game was built. It demonstrates main concepts of Object Oriented Programming. Particularly, classes and access to their attributes.
 
 ## PREREQUISITE
@@ -11,12 +13,30 @@
 
 - clone the repository `$ git clone https://github.com/vicmaburrito/tic_tac_toe`
 - open the downloaded repository with vscode.
-- switch to game_logic branch in the terminal `$ git checkout game_logic`
-- Run the command `$ ruby main.rb`
+- Run the command `$ ruby bin/main`
 
 ## Built With
 
 - Ruby
+
+## Rules
+
+- 3 x 3 grid as board
+- The player can choose their player icon 'X' or 'O'
+- Players put their marks in numbered squares.
+- First player to get 3 of her marks in a row (up, down, across, or diagonally) wins.
+- 9 squares full mean the game is over. If no winner, it's a draw.
+
+## Flow
+
+- Player's name asked to welcome the game
+- You can choose how many players
+- You can choose the goal for the game score
+- When you choose the number of players, ask again the name of the players to start the game
+- The player can choose their player icon 'X' or 'O'
+- You can select who starting first 
+- Starts the game! 
+- At the end of the selected games, they will say who is the winner or if it is a draw
 
 ## Live Demo
 
