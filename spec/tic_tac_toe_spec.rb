@@ -59,7 +59,21 @@ RSpec.describe Board do
   end
 end
 
-describe Player do
+RSpec.describe Player do
+  condition = .instance_of Integer && 
+  describe '#pick_slot' do
+    context 'when the game is started, this' do
+      it 'returns a hash of gotten from self.make_board method' do
+        expect(subject.pick_slot).to eql(construct_board)
+      end
+    end
+
+    context 'when the game is started, this' do
+      it 'does not return an empty hash' do
+        expect(subject.squares).to_not eql(Hash.new)
+      end
+    end
+  end
 end
 
 describe Game do
