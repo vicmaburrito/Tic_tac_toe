@@ -1,61 +1,59 @@
 require './lib/tic_tac_toe.rb'
 
 RSpec.describe Board do
+  subject { Board }
+  def construct_board
+    num_start = 1
+    num_end = 9
+    board_slot_sign = '-'
+    board_range = (num_start..num_end).to_a
+    cells = Hash.new
+    board_range.each do |key|
+      cells[key] = board_slot_sign
+    end
+    cells
+  end
+
   describe '#self.make_board' do
-    context 'when game is started, this' do
-      it 'makes the board available for game play' do
-        Board.make_board
-        squares = Board.squares
+    context 'when the game is started, this' do
+      it 'returns a hash which the 9 keys having 1 to 9 as key names and hyphens of string type making the board available for game play' do
+        expect(subject.make_board).to eql(construct_board)
+      end
+    end
 
-        num_start = 1
-        num_end = 9
-        board_slot_sign = '-'
-        board_range = (num_start..num_end).to_a
-        cells = Hash.new
-
-        board_range.each do |key|
-          cells[key] = board_slot_sign
-        end
-        expect(squares).to eql(cells)
+    context 'when the game is started, this' do
+      it 'does not return an empty hash' do
+        expect(subject.make_board).to_not eql(Hash.new)
       end
     end
   end
 
   describe '#self.squares' do
-    context 'when game is started, this' do
-      it 'returns an object of board slots' do
-        board_cells = Board.squares
+    context 'when the game is started, this' do
+      it 'returns a hash of gotten from self.make_board method' do
+        expect(subject.squares).to eql(construct_board)
+      end
+    end
 
-        num_start = 1
-        num_end = 9
-        board_slot_sign = '-'
-        board_range = (num_start..num_end).to_a
-        slots = Hash.new
-
-        board_range.each do |key|
-          slots[key] = board_slot_sign
-        end
-        expect(board_cells).to eql(slots)
+    context 'when the game is started, this' do
+      it 'does not return an empty hash' do
+        expect(subject.squares).to_not eql(Hash.new)
       end
     end
   end
 
   describe '#self.reset' do
-    context 'when a round of play is ended, this' do
-      it 'returns an object of board slots values that have no numbers' do
-        Board.make_board
-        slot1 = Board.squares
-
-        num_start = 1
-        num_end = 9
-        board_slot_sign = '-'
-        board_range = (num_start..num_end).to_a
+    context 'when a round of gameplay is ended, this' do
+      it 'returns a hash of hyphens of string type as values' do
         empty_board_slots = Hash.new
+        expect(subject.reset).to eql(construct_board)
+      end
+    end
 
-        board_range.each do |key|
-          empty_board_slots[key] = board_slot_sign
-        end
-        expect(slot1).to eql(empty_board_slots)
+    context 'when a round of gameplay is ended, this' do
+      it 'does not return an empty hash' do
+        empty_board_slots = Hash.new
+        expect(subject.reset).to_not eql(Hash.new)
       end
     end
   end
