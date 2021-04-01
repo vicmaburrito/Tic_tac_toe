@@ -72,6 +72,7 @@ class Scoreboard
   def increment_score(char)
     @x_score += 1 if char == 'X'
     @o_score += 1 if char == 'O'
+    return char
   end
 end
 
