@@ -51,8 +51,6 @@ end
 class Game
   def play(board_slot, character)
     Board.squares[board_slot] = character
-    display_guide
-    display_slots
   end
 
   def checkmatch(char)
