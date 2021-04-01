@@ -1,4 +1,5 @@
 require './lib/tic_tac_toe.rb'
+# require './bin/main'
 
 RSpec.describe Board do
   subject { Board }
@@ -60,19 +61,31 @@ RSpec.describe Board do
 end
 
 RSpec.describe Player do
-  condition = .instance_of Integer && 
+
+  num_start = 1
+  num_end = 9
+
+  # condition = .instance_of Integer && 
+  # board_range = (num_start..num_end).to_a
+  # picked_slot = board_range.sample
+  # .include?()
+
   describe '#pick_slot' do
-    context 'when the game is started, this' do
-      it 'returns a hash of gotten from self.make_board method' do
-        expect(subject.pick_slot).to eql(construct_board)
+    subject { Player.new('Ruby', 'x') }
+    context 'when the game is being played, this' do
+      it 'allows the player to pick a slot number from the board' do
+        board_range = (num_start..num_end).to_a
+        picked_slot = board_range.sample
+        # picked_slot = subject.pick_slot
+        expect(board_range.include? picked_slot).to eql(true)
       end
     end
 
-    context 'when the game is started, this' do
-      it 'does not return an empty hash' do
-        expect(subject.squares).to_not eql(Hash.new)
-      end
-    end
+    # context 'when the game is started, this' do
+    #   it 'does not return an empty hash' do
+    #     expect(subject.squares).to_not eql(Hash.new)
+    #   end
+    # end
   end
 end
 
