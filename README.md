@@ -49,15 +49,6 @@
 - GitHub: [@Gnwin](https://github.com/Gnwin)
 - Twitter [@gmarxr](https://twitter.com/gmarxr)
 - LinkedIn: [Godwin Nwachukwu](https://www.linkedin.com/in/n-gwin/)
-
-## Authors 2
-
-👤 **Manuel Aldaraca**
-
-- GitHub: [@vicmaburrito](https://github.com/vicmaburrito)
-- Twitter: [@ManuelAldaraca](https://twitter.com/ManuelAldaraca)
-- LinkedIn: [LinkedIn](https://www.linkedin.com/in/manuel-aldaraca/)
-
 ##  Contributing
 
 Contributions, issues, and feature requests are welcome!
