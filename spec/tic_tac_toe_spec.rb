@@ -1,5 +1,4 @@
 require './lib/tic_tac_toe.rb'
-# require './bin/main'
 
 RSpec.describe Board do
   
