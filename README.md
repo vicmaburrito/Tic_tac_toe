@@ -42,13 +42,21 @@
 
 [Live Demo Link](https://repl.it/@CodeVantage/OOP#main.rb)
 
-## Author 1
+## Testing
+
+- clone the repo
+- You can choose how many players
+- You can choose the goal for the game score
+- When you choose the number of players, ask again the name of the players to start the game
+
+## Author
 
 👤 **Godwin Nwachukwu**
 
 - GitHub: [@Gnwin](https://github.com/Gnwin)
 - Twitter [@gmarxr](https://twitter.com/gmarxr)
 - LinkedIn: [Godwin Nwachukwu](https://www.linkedin.com/in/n-gwin/)
+
 ##  Contributing
 
 Contributions, issues, and feature requests are welcome!
