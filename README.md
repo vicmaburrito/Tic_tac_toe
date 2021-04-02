@@ -44,10 +44,10 @@
 
 ## Testing
 
-- clone the repo
-- You can choose how many players
-- You can choose the goal for the game score
-- When you choose the number of players, ask again the name of the players to start the game
+- clone the repository with this command `$ git clone https://github.com/Gnwin/tic_tac_toe`
+- switch to test branch with this command `git checkout test`
+- at the root level of the project run the command `rspec`
+- see test results in the terminal
 
 ## Author
 
