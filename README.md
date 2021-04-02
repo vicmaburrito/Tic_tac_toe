@@ -19,6 +19,13 @@
 
 - Ruby
 
+## Testing
+
+- clone the repository with this command `$ git clone https://github.com/Gnwin/tic_tac_toe`
+- switch to test branch with this command `git checkout test`
+- at the root level of the project run the command `rspec`
+- see test results in the terminal
+
 ## Rules
 
 - 3 x 3 grid as board
@@ -41,13 +48,6 @@
 ## Live Demo
 
 [Live Demo Link](https://repl.it/@CodeVantage/OOP#main.rb)
-
-## Testing
-
-- clone the repository with this command `$ git clone https://github.com/Gnwin/tic_tac_toe`
-- switch to test branch with this command `git checkout test`
-- at the root level of the project run the command `rspec`
-- see test results in the terminal
 
 ## Author
 
