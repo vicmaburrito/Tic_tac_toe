@@ -51,8 +51,6 @@ end
 class Game
   def play(board_slot, character)
     Board.squares[board_slot] = character
-    display_guide
-    display_slots
   end
 
   def checkmatch(char)
@@ -74,6 +72,7 @@ class Scoreboard
   def increment_score(char)
     @x_score += 1 if char == 'X'
     @o_score += 1 if char == 'O'
+    char
   end
 end
 

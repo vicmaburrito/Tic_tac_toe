@@ -1,14 +1,12 @@
-require './lib/tic_tac_toe.rb'
-
+require './lib/tic_tac_toe'
 
 RSpec.describe Board do
-
   def construct_board
     num_start = 1
     num_end = 9
     board_slot_sign = '-'
     board_range = (num_start..num_end).to_a
-    cells = Hash.new
+    cells = {}
     board_range.each do |key|
       cells[key] = board_slot_sign
     end
@@ -18,14 +16,14 @@ RSpec.describe Board do
 
   describe '#self.make_board' do
     context 'when the game is started, this' do
-      it 'returns a hash which the 9 keys having 1 to 9 as key names and hyphens of string type making the board available for game play' do
+      it 'returns a hash which the 9 keys having 1 to 9 as key names and hyphens of type String' do
         expect(subject.make_board).to eql(construct_board)
       end
     end
 
     context 'when the game is started, this' do
       it 'does not return an empty hash' do
-        expect(subject.make_board).to_not eql(Hash.new)
+        expect(subject.make_board).to_not eql({})
       end
     end
   end
@@ -39,7 +37,7 @@ RSpec.describe Board do
 
     context 'when the game is started, this' do
       it 'does not return an empty hash' do
-        expect(subject.squares).to_not eql(Hash.new)
+        expect(subject.squares).to_not eql({})
       end
     end
   end
@@ -47,15 +45,15 @@ RSpec.describe Board do
   describe '#self.reset' do
     context 'when a round of gameplay is ended, this' do
       it 'returns a hash of hyphens of string type as values' do
-        empty_board_slots = Hash.new
+        empty_board_slots = {}
         expect(subject.reset).to eql(construct_board)
       end
     end
 
     context 'when a round of gameplay is ended, this' do
       it 'does not return an empty hash' do
-        empty_board_slots = Hash.new
-        expect(subject.reset).to_not eql(Hash.new)
+        empty_board_slots = {}
+        expect(subject.reset).to_not eql({})
       end
     end
   end
@@ -138,7 +136,7 @@ RSpec.describe Game do
             break
           end
         end
-        expect(subject.checkmatch('X')).to eql(win)
+        expect(subject.checkmatch('x')).to eql(win)
       end
     end
 
