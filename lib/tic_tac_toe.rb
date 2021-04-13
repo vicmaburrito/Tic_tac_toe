@@ -32,12 +32,12 @@ class Player
   end
 
   def pick_slot
+    board = Board.squares.select { |_key, value| value == '-' }
+    arr1 = []
+    board.each { |k, _v| arr1 << k }
+    display_guide
+    choose(@name, arr1)
     loop do
-      board = Board.squares.select { |_key, value| value == '-' }
-      arr1 = []
-      board.each { |k, _v| arr1 << k }
-      display_guide
-      choose(@name, arr1)
       @slot = input
       break if board[@slot] == '-'
 
