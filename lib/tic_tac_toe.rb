@@ -11,6 +11,7 @@ class Board
     @@board_range.each do |key|
       @@squares[key] = @@board_slot_sign
     end
+    @@squares
   end
   make_board
 
