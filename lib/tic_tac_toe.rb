@@ -1,34 +1,25 @@
 # rubocop:disable Style/ClassVars
 
 class Board
-  @@squares = {
-    1 => '-',
-    2 => '-',
-    3 => '-',
-    4 => '-',
-    5 => '-',
-    6 => '-',
-    7 => '-',
-    8 => '-',
-    9 => '-'
-  }
+  @@num_start = 1
+  @@num_end = 9
+  @@board_slot_sign = '-'
+  @@board_range = (@@num_start..@@num_end).to_a
+  @@squares = {}
+
+  def self.make_board
+    @@board_range.each do |key|
+      @@squares[key] = @@board_slot_sign
+    end
+  end
+  make_board
 
   def self.squares
     @@squares
   end
 
   def self.reset
-    @@squares = {
-      1 => '-',
-      2 => '-',
-      3 => '-',
-      4 => '-',
-      5 => '-',
-      6 => '-',
-      7 => '-',
-      8 => '-',
-      9 => '-'
-    }
+    make_board
   end
 end
 
