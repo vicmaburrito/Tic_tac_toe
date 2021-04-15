@@ -45,14 +45,12 @@ RSpec.describe Board do
   describe '#self.reset' do
     context 'when a round of gameplay is ended, this' do
       it 'returns a hash of hyphens of string type as values' do
-        empty_board_slots = {}
         expect(subject.reset).to eql(construct_board)
       end
     end
 
     context 'when a round of gameplay is ended, this' do
       it 'does not return an empty hash' do
-        empty_board_slots = {}
         expect(subject.reset).to_not eql({})
       end
     end
@@ -218,20 +216,41 @@ RSpec.describe Scoreboard do
     end
     context 'when there is no winner' do
       it 'increases the players score by zero' do
-        subject.increment_score(win_letter = nil)
+        subject.increment_score(nil)
         expect(subject.x_score).to eql(0)
       end
     end
     context 'when there is a winner' do
       it 'increases the players score by zero' do
-        subject.increment_score(win_letter = nil)
+        subject.increment_score(nil)
         expect(subject.o_score).to eql(0)
       end
     end
   end
 end
 
-describe AutoPlayer do
+RSpec.describe AutoPlayer do
+  num_start = 1
+  num_end = 9
+  board_range = (num_start..num_end).to_a
+  board_range1 = %w[$ ! a b c]
+
+  describe '#pick_slot' do
+    subject { AutoPlayer.new('Ruby', 'X') }
+    context 'when the game is being played, this' do
+      it 'allows the player to pick a slot number from the board' do
+        picked_slot = board_range.sample
+        expect(board_range.include?(picked_slot)).to eql(true)
+      end
+    end
+
+    context 'when the game is being played, this' do
+      it 'does not allow the player input a character that does not represent a slot number' do
+        picked_slot = board_range1.sample
+        expect(board_range.include?(picked_slot)).to_not eql(true)
+      end
+    end
+  end
 end
 
 describe AutoGame do
