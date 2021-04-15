@@ -42,6 +42,13 @@
 
 [Live Demo Link](https://repl.it/@CodeVantage/OOP#main.rb)
 
+## Testing
+
+- clone the repository with this command `$ git clone https://github.com/vicmaburrito/tic_tac_toe.git`
+- switch to test branch with this command `git checkout test`
+- at the root level of the project run the command `rspec`
+- see test results in the terminal
+
 ## Author 1
 
 👤 **Godwin Nwachukwu**
